@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import logo from '../assets/navbarlogo.png';
-import cart from '../assets/cart.jpg'
+import cart from '../assets/cart.png'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+const navigate=useNavigate()
   const navLinks = [
     { path: '/', element: 'Home' },
-    { path: '/shop', element: 'Shop' },
+    { path: '/products', element: 'Shop' },
     { path: '/about-us', element: 'About Us' },
     { path: '/contact', element: 'Contact' },
   ];
@@ -17,19 +19,35 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleLogout = async () => {
+    try {
+      await axios.post('http://localhost:3000/api/v1/users/logout', {}, { withCredentials: true });
+      localStorage.removeItem('authToken');
+      navigate('/');
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
   return (
     <div>
-      <nav className="shadow-md bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <nav className="shadow-md bg-white dark:bg-gray-900 fixed w-full z-10 top-0 start-0  border-gray-200 dark:border-gray-600">
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
           <a className="flex items-center space-x-3 rtl:space-x-reverse cursor-not-allowed">
             <img src={logo} className="h-12" alt="Logo" />
           </a>
-          <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <button className="bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full font-serif">
+          <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse pl-10">
+            <button onClick={handleLogout}
+            className="bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-2 rounded-full font-serif">
               Logout
             </button>
-            <button ><img src={cart} alt="" height={50} width={50}/></button>
-            <button
+           
+            <Link to="/cart">
+      <button>
+        <img src={cart} alt="Cart" height={30} width={30} />
+      </button>
+    </Link>  
+            <button 
               onClick={toggleMenu}
               type="button"
               className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"

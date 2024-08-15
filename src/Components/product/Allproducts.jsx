@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 function Allproducts() {
   const  [products,setProducts]=useState([]);
   useEffect(()=>
@@ -25,20 +26,20 @@ function Allproducts() {
         {products.map((product) => (
           <div key={product._id} className="max-w-xs mb-4 ml-4">
             <div className="bg-white rounded-sm overflow-hidden shadow-md transition-transform transform hover:-translate-y-1 hover:shadow-lg">
-              <div className="h-64 overflow-hidden">
+            <Link to={`/viewproduct/${product._id}`}><div className="h-64 overflow-hidden">
                 <img
                   className="w-full h-full object-center transition-transform transform hover:scale-105"
                   src={product.image}
                   alt={product.productName}
                 />
-              </div>
+              </div></Link>  
               <div className="p-5">
                 <h2 className="text-xl font-bold font-playfair mb-2 text-sky-900">{product.productName}</h2>
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-semibold text-sky-900 font-abril">₹{product.price}</span>
-                  <button  className="bg-sky-900 text-white px-4 py-2 rounded-full font-semibold transition-colors hover:bg-cyan-800">
-                    Add to Cart
-                  </button>
+               <Link to={`/viewproduct/${product._id}`}>  <button  className="bg-sky-900 text-white px-4 py-2 rounded-full font-semibold transition-colors hover:bg-cyan-800">
+                      View
+                  </button></Link> 
                 </div>
               </div>
             </div>

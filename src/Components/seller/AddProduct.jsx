@@ -33,7 +33,6 @@ const AddProduct = () => {
     const fetchCategories = async () => {
       try {
         const res = await axios.get('http://localhost:3000/api/v1/category/get-category');
-        console.log("Categories fetched:", res.data); 
         setCategory(res.data); 
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -44,24 +43,24 @@ const AddProduct = () => {
     fetchCategories();
   }, []);
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm({
     resolver: yupResolver(schema),
   });
 
   const onSubmit = async (data) => {
-    const requestBody = {
-      productName: data.productName,
-      description: data.description,
-      price: data.price,
-      stock: data.stock,
-      sellerEmail: data.sellerEmail,
-      category: data.category,
-      image: data.image[0]
-    };
+    const formData = new FormData();
+    formData.append('productName', data.productName);
+    formData.append('description', data.description);
+    formData.append('price', data.price);
+    formData.append('stock', data.stock);
+    formData.append('sellerEmail', data.sellerEmail);
+    formData.append('category', data.category);
+    formData.append('image', data.image[0]);
+
     try {
       const res = await axios.post(
         "http://localhost:3000/api/v1/product/add-products",
-        requestBody,
+        formData,
         {
           withCredentials: true,
           headers: {
@@ -70,12 +69,13 @@ const AddProduct = () => {
         },
       );
       console.log(res.data);
-    setMessage('Product added successfully!');
-  } catch (error) {
-    console.log(error);
-    setMessage('Failed to add product. Please try again.');
-  }
-};
+      setMessage('Product added successfully!');
+    } catch (error) {
+      console.log(error);
+      setMessage('Failed to add product. Please try again.');
+    }
+  };
+
   return (
     <>
       <Sellersidebar />
@@ -91,6 +91,8 @@ const AddProduct = () => {
             />
             <p className="text-red-500">{errors.productName?.message}</p>
           </div>
+
+        
           <div className="mb-4">
             <label className="block text-gray-700">Description</label>
             <textarea
@@ -119,7 +121,7 @@ const AddProduct = () => {
           </div>
           <div className="mb-4">
             <label className="block text-gray-700">Seller Email</label>
-            <select {...register("sellerEmail")}>
+            <select {...register('sellerEmail')} className="mt-1 p-2 border w-full">
               {sellers.map((seller, index) => (
                 <option key={index} value={seller.email}>
                   {seller.email}
@@ -130,7 +132,7 @@ const AddProduct = () => {
           </div>
           <div className="mb-4">
             <label className="block text-gray-700">Category</label>
-            <select {...register("category")}>
+            <select {...register('category')} className="mt-1 p-2 border w-full">
               <option value="">Select a category</option>
               {categories.map((cat, index) => (
                 <option key={index} value={cat.name}>
@@ -140,7 +142,7 @@ const AddProduct = () => {
             </select>
             <p className="text-red-500">{errors.category?.message}</p>
           </div>
-          <div className="mb-4">
+   <div className="mb-4">
             <label className="block text-gray-700">Image</label>
             <input
               type="file"
@@ -152,7 +154,7 @@ const AddProduct = () => {
           <button type="submit" className="bg-blue-500 text-white p-2 rounded">
             Add Product
           </button>
-          {message && <span className='block mt-4 text-green-600'>{message}</span>}
+          {message && <span className="block mt-4 text-green-600">{message}</span>}
         </form>
       </div>
     </>

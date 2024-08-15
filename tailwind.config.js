@@ -9,7 +9,9 @@ export default {
       fontFamily: {
         serif: ['Lora', 'serif'],
         abril: ['Abril Fatface', 'serif'],
-      playfair:['Playfair Display', 'serif']
+      playfair:['Playfair Display', 'serif'],
+      amatic:['Amatic SC', 'sans-serif'],
+      poppins:[ "Poppins", 'sans-serif']
       },
     
     },

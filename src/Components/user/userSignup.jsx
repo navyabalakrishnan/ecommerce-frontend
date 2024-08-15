@@ -4,6 +4,8 @@ import * as yup from "yup";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+import { useNavigate } from "react-router-dom";
+
 const schema = yup
   .object({
     name: yup.string().required("Name is required"),
@@ -16,6 +18,7 @@ const schema = yup
   .required();
 
 export default function Signup() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -30,6 +33,16 @@ export default function Signup() {
           withCredentials: true,
         },
       );
+      if (res.data.token) {
+        localStorage.setItem("authToken", res.data.token);
+        console.log("Stored Token:", localStorage.getItem("authToken"));
+        navigate("/home");
+        console.log(res.data);
+      } else if (res.data === "Password incorrect") {
+        setErrormessage("Incorrect Password");
+      } else if (res.data === "User  does not exist") {
+        setErrormessage("User does not exist. Please create an account");
+      }
       console.log(res.data);
      
     } catch (error) {

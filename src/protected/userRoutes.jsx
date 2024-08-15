@@ -16,10 +16,7 @@ const UserRoutes = ({ children }) => {
         );
 
         const data = res.data;
-        console.log("res",data);
-        
-     
-        
+        console.log("res",data);   
       } catch (error) {
         console.error("Error occurred while checking user:", error);
         navigate("/user-signup", { replace: true });

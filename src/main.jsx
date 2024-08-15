@@ -8,10 +8,10 @@ import App from './App.jsx';
 import './index.css';
 import Homepage from './Components/homepage.jsx';
 
-import Signup from './Components/user/userSignup.jsx'
+import Signup from './Components/user/userSignup.jsx';
 import Signin from './Components/user/userSigin.jsx';
 import SellerSignup from './Components/seller/Signup.jsx';
-import SellerSignin from './Components/seller/Signin.jsx'
+import SellerSignin from './Components/seller/Signin.jsx';
 import HomeLayout from './layout/HomeLayout.jsx';
 import Navbar from './layout/Navbar.jsx';
 import Allproducts from './Components/product/Allproducts.jsx';
@@ -27,51 +27,38 @@ import ManageOrders from './Components/seller/ManageOrders.jsx';
 import Vieworders from './Components/admin/Vieworders.jsx';
 import Viewproducts from './Components/admin/ViewProducts.jsx';
 import Indexpage from './Indexpage.jsx';
-import UserRoutes from './protected/userRoutes.jsx';
-import SellerRoutes from './protected/sellerRoutes.jsx';
+import ProtectedRoute from './Components/protectedRoute.jsx'; 
+
 const router = createBrowserRouter([
   {
-    element:
- 
-    <HomeLayout/>,
- 
-    
-
-    children:[
+    element: <HomeLayout />,
+    children: [
       {
-        path:"/",
-        element:<Indexpage/>
-          },
-      {
-    path:"/user-signup",
-    element:<Signup/>
+        path: "/",
+        element: <Indexpage />
       },
       {
-        path:"/user-signin",
-        element:<Signin/>
-          },
-          {
-            path:"/seller-signup",
-            element:<SellerSignup/>
-              },
-              {
-                path:"/seller-signin",
-                element:<SellerSignin/>
-                  },
-
+        path: "/user-signup",
+        element: <Signup />
+      },
+      {
+        path: "/user-signin",
+        element: <Signin />
+      },
+      {
+        path: "/seller-signup",
+        element: <SellerSignup />
+      },
+      {
+        path: "/seller-signin",
+        element: <SellerSignin />
+      },
     ]
   },
-  
-
   {
-    
-    
-    element:
-    (
-      <UserRoutes>
-      <Navbar/>,
-      </UserRoutes>)
-      ,
+    element: <ProtectedRoute>
+      <Navbar/>
+      </ProtectedRoute>, 
     children: [
       {
         path: "/home",
@@ -81,53 +68,56 @@ const router = createBrowserRouter([
         path: "/products",
         element: <Allproducts />
       },
-     {
-      path:"/viewproduct",
-      element:<ProductDetail/>
-     }
-     ,{
-      path:"/cart",
-      element:<Cart/>
-     },
-     {
-      path: "/shop",
-      element: <Allproducts />
-    },
-     {
-      path:"/checkout",
-      element:<CheckoutPage/>
-     },
-     {path:"/orderplaced",
-      element:<FinalProductpage/>
-     }
+      {
+        path: "/viewproduct/:id",
+        element: <ProductDetail />
+      },
+      {
+        path: "/cart/:userId",
+        element: <Cart />
+      },
+      {
+        path: "/shop",
+        element: <Allproducts />
+      },
+      {
+        path: "/checkout",
+        element: <CheckoutPage />
+      },
+      {
+        path: "/orderplaced",
+        element: <FinalProductpage />
+      }
     ]
   },
   {
-    element:<Selleradminnav/>,
-    children:[
+    element: <ProtectedRoute>
+      <Selleradminnav />
+      </ProtectedRoute>, 
+    children: [
       {
-        path:"/add-product",
-        element:<AddProduct/>
+        path: "/add-product",
+        element: <AddProduct />
       },
       {
-        path:"/manage-products",
-        element:<ManageProducts/>
+        path: "/manage-products",
+        element: <ManageProducts />
       },
       {
-        path:"/manage-orders",
-        element:<ManageOrders/>
+        path: "/manage-orders",
+        element: <ManageOrders />
       },
       {
-        path:"/manage-sellers",
-        element:<ManageSellers/>
+        path: "/manage-sellers",
+        element: <ManageSellers />
       },
       {
-        path:"/view-orders",
-        element:<Vieworders/>
+        path: "/view-orders",
+        element: <Vieworders />
       },
       {
-        path:"/view-products",
-        element:<Viewproducts/>
+        path: "/view-products",
+        element: <Viewproducts />
       }
     ]
   }

@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const schema = yup
   .object({
@@ -16,12 +17,13 @@ const schema = yup
   .required();
 
 export default function Signup() {
+   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
-
+ 
   const onSubmit = async (data) => {
     try {
       const res = await axios.post(
@@ -31,6 +33,16 @@ export default function Signup() {
           withCredentials: true,
         },
       );
+      if (res.data.token) {
+        localStorage.setItem("authToken", res.data.token);
+        console.debug("Stored Token:", localStorage.getItem("authToken"));
+
+        navigate("/add-product");
+      } else if (res.data.message === "Password incorrect") {
+        setErrormessage("Incorrect Password");
+      } else if (res.data.message === "seller does not exist") {
+        setErrormessage("Seller does not exist. Please create an account");
+      }
       console.log(res.data);
      
     } catch (error) {
