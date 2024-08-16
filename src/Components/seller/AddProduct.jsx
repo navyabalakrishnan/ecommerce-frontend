@@ -9,7 +9,6 @@ const schema = yup.object({
   productName: yup.string().required('Product Name is required'),
   description: yup.string().required('Description is required'),
   price: yup.number().required('Price is required').positive().integer(),
-  stock: yup.number().required('Stock is required').positive().integer(),
   sellerEmail: yup.string().email('Invalid email').required('Seller Email is required'),
   category: yup.string().required('Category is required'),
   image: yup.mixed().required('Image is required'),
@@ -52,7 +51,7 @@ const AddProduct = () => {
     formData.append('productName', data.productName);
     formData.append('description', data.description);
     formData.append('price', data.price);
-    formData.append('stock', data.stock);
+
     formData.append('sellerEmail', data.sellerEmail);
     formData.append('category', data.category);
     formData.append('image', data.image[0]);
@@ -110,15 +109,7 @@ const AddProduct = () => {
             />
             <p className="text-red-500">{errors.price?.message}</p>
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700">Stock</label>
-            <input
-              type="number"
-              {...register('stock')}
-              className="mt-1 p-2 border w-full"
-            />
-            <p className="text-red-500">{errors.stock?.message}</p>
-          </div>
+         
           <div className="mb-4">
             <label className="block text-gray-700">Seller Email</label>
             <select {...register('sellerEmail')} className="mt-1 p-2 border w-full">

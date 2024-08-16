@@ -1,11 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Sellersidebar from './Sellersidebar';
 
 function ManageProducts() {
   const [products, setProducts] = useState([]);
-  const { id } = useParams();
 
   useEffect(() => {
     const getProducts = async () => {
@@ -13,10 +12,10 @@ function ManageProducts() {
         const token = localStorage.getItem('authToken');
         const res = await axios.get('http://localhost:3000/api/v1/product/manage-products', {
           headers: {
-            Authorization: `Bearer ${token}` 
+            Authorization: `Bearer ${token}`
           }
         });
-        console.log("Fetched products:", res.data); 
+        console.log("Fetched products:", res.data);
         setProducts(res.data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -25,6 +24,24 @@ function ManageProducts() {
     getProducts();
   }, []);
 
+  const handleRemovebySeller = async (productId) => {
+    try {
+      const token = localStorage.getItem('authToken');
+      const res = await axios.delete(`http://localhost:3000/api/v1/product/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      const data = res.data;
+      console.log(data);
+      if (data.message === "Product is deleted") {
+    
+        setProducts(products.filter(product => product._id !== productId));
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
 
   return (
     <div>
@@ -36,8 +53,7 @@ function ManageProducts() {
               <th scope="col" className="px-6 py-3">Product Name</th>
               <th scope="col" className="px-6 py-3">Price</th>
               <th scope="col" className="px-6 py-3">Category</th>
-              <th scope="col" className="px-6 py-3">Stock</th>
-              <th scope="col" className="px-6 py-3">Actions</th>
+              <th scope="col" className="px-6 py-3 ml-10">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -48,9 +64,12 @@ function ManageProducts() {
                 </th>
                 <td className="px-6 py-4">${product.price}</td>
                 <td className="px-6 py-4">{product.category}</td>
-                <td className="px-6 py-4">{product.stock}</td>
+          
                 <td className="px-6 py-4">
-                  <button className="bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full font-serif cursor-pointer">
+                  <button
+                    onClick={() => handleRemovebySeller(product._id)}
+                    className="bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full font-serif cursor-pointer"
+                  >
                     Remove Product
                   </button>
                 </td>

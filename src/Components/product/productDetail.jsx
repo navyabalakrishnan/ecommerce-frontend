@@ -122,7 +122,7 @@ useEffect(() => {
       
 
         </div><br /><div className='pl-36'>
-     <Link to="/checkout">  <button  className='text-white font-playfair text-lg bg-sky-800 hover:bg-sky-950 rounded-md px-32 py-2 font-bold '>Buy Now</button>
+     <Link to="/checkout">  <button  onClick={addToCart} className='text-white font-playfair text-lg bg-sky-800 hover:bg-sky-950 rounded-md px-32 py-2 font-bold '>Buy Now</button>
 </Link> 
 
 </div>

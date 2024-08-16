@@ -1,7 +1,19 @@
 import React from 'react'
 import logo from '../assets/navbarlogo.png';
 import { Link, Outlet } from 'react-router-dom';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 function Selleradminnav() {
+  const navigate=useNavigate()
+  const handleSellerLogout = async () => {
+    try {
+      await axios.post('http://localhost:3000/api/v1/users/logout', {}, { withCredentials: true });
+      localStorage.removeItem('authToken');
+      navigate('/');
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
   return (
     <div>
         <div>
@@ -12,7 +24,9 @@ function Selleradminnav() {
           </a>
           {/* <h3>LIV.E</h3> */}
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <button className="bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full font-serif">
+            <button 
+           onClick={handleSellerLogout} 
+            className="bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full font-serif">
               Logout
             </button>
             <button

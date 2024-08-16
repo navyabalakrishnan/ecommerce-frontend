@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import SA from "../../assets/SA2.png";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -58,7 +59,7 @@ const CheckoutPage = () => {
       },
         { withCredentials: true });
       console.log('Order created:', response.data);
-      navigate("/shop")
+      navigate("/orderplaced")
     } catch (error) {
       console.error('Error creating order:', error);
     }
@@ -71,14 +72,15 @@ const CheckoutPage = () => {
         <img src={SA} alt="Shipping Address" height={250} width={250} />
       </div>
       <div className="absolute mr-20 mt-72 top-0 right-0 w-2/5 bg-white shadow-teal-950 shadow-inner rounded-lg">
-        <h2 className="text-xl font-bold mb-4 flex justify-center font-abril text-blue-950">Your Order</h2>
+        <h2 className="text-xl font-thin mb-4 flex justify-center font-abril text-blue-950">Your Order</h2>
         {cart.map((item, index) => (
-          <div key={index} className="flex font-bold text-lg">
-            <span><img src={item.product.image} height={100} width={100} alt={item.product.name} /></span>
-            <div className='pl-10'>
+          <div key={index} className="flex justify-around font-bold text-lg">
+            <span><img className='rounded-lg' src={item.product.image} height={100} width={100} alt={item.product.name} /></span>
+            <div className='pl-10 font-serif '>
               <h3>{item.product.productName}</h3>
               <h3>Quantity: {item.quantity}</h3>
               <h3>Price: ${item.product.price}</h3>
+              <hr class="h-px w-auto my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
             </div>
           </div>
         ))}
@@ -97,13 +99,13 @@ const CheckoutPage = () => {
             Online Payment
           </button>
         </div>
-        <button
+ <button
           type="submit"
           className="bg-sky-800 w-full hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full font-serif cursor-pointer mt-4"
           onClick={handleSubmit(onSubmit)}
         >
           Place Order
-        </button>
+        </button> 
       </div>
       <div className="pl-20 mt-12">
         <h1 className="text-cyan-950 font-playfair text-4xl">Shipping Address</h1>
@@ -188,9 +190,9 @@ const CheckoutPage = () => {
                       {errors.zipcode && <p className="text-red-600">{errors.zipcode.message}</p>}
                     </div>
                     <div className="md:col-span-5 text-right">
-                      <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                      {/* <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Submit
-                      </button>
+                      </button> */}
                       {addressmsg && <div className='mt-4 text-green-900 font-semibold'>{addressmsg}</div>}
 
                     </div>

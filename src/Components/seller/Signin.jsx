@@ -36,7 +36,7 @@ export default function SellerSignin() {
       if (res.data.token) {
         localStorage.setItem("authToken", res.data.token);
         localStorage.setItem("sellerId", res.data.sellerId);
-        console.log("Stored Token:", localStorage.getItem("authToken"));
+   
 
         navigate("/add-product"); 
       } else if (res.data.message === "Password incorrect") {

@@ -42,7 +42,7 @@ const navigate=useNavigate()
               Logout
             </button>
            
-            <Link to="/cart">
+            <Link to={"/cart"}>
       <button>
         <img src={cart} alt="Cart" height={30} width={30} />
       </button>
