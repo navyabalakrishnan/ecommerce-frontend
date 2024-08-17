@@ -57,6 +57,7 @@ const AddProduct = () => {
     formData.append('image', data.image[0]);
 
     try {
+    
       const res = await axios.post(
         "http://localhost:3000/api/v1/product/add-products",
         formData,
@@ -66,7 +67,7 @@ const AddProduct = () => {
             "Content-Type": "multipart/form-data",
           },
         },
-      );
+      ); 
       console.log(res.data);
       setMessage('Product added successfully!');
     } catch (error) {
@@ -74,7 +75,6 @@ const AddProduct = () => {
       setMessage('Failed to add product. Please try again.');
     }
   };
-
   return (
     <>
       <Sellersidebar />

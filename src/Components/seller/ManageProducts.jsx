@@ -10,6 +10,7 @@ function ManageProducts() {
     const getProducts = async () => {
       try {
         const token = localStorage.getItem('authToken');
+        
         const res = await axios.get('http://localhost:3000/api/v1/product/manage-products', {
           headers: {
             Authorization: `Bearer ${token}`

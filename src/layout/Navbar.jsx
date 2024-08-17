@@ -9,9 +9,9 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 const navigate=useNavigate()
   const navLinks = [
-    { path: '/', element: 'Home' },
+    { path: '/home', element: 'HOME' },
     { path: '/products', element: 'Shop' },
-    { path: '/about-us', element: 'About Us' },
+    { path: '/about-us', element: 'About' },
     { path: '/contact', element: 'Contact' },
   ];
 

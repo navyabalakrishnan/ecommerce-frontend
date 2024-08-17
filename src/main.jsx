@@ -29,7 +29,8 @@ import Vieworders from './Components/admin/Vieworders.jsx';
 import Viewproducts from './Components/admin/ViewProducts.jsx';
 import Indexpage from './Indexpage.jsx';
 import ProtectedRoute from './Components/protectedRoute.jsx'; 
-
+import About from './Components/navbarComponent/About.jsx'
+import Contact from './Components/navbarComponent/Contact.jsx';
 const router = createBrowserRouter([
   {
     element: <HomeLayout />,
@@ -80,6 +81,14 @@ const router = createBrowserRouter([
       {
         path: "/shop",
         element: <Allproducts />
+      },
+      {
+        path: "/about-us",
+        element: <About />
+      },
+      {
+        path: "/contact",
+        element: <Contact />
       },
       {
         path: "/checkout",
