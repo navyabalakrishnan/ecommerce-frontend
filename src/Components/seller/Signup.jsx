@@ -35,7 +35,6 @@ export default function Signup() {
       );
       if (res.data.token) {
         localStorage.setItem("authToken", res.data.token);
-        console.debug("Stored Token:", localStorage.getItem("authToken"));
 
         navigate("/add-product");
       } else if (res.data.message === "Password incorrect") {

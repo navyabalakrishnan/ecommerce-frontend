@@ -14,6 +14,7 @@ import SellerSignup from './Components/seller/Signup.jsx';
 import SellerSignin from './Components/seller/Signin.jsx';
 import HomeLayout from './layout/HomeLayout.jsx';
 import Navbar from './layout/Navbar.jsx';
+import AddCategory from './Components/admin/Addcategory.jsx';
 import Allproducts from './Components/product/Allproducts.jsx';
 import ProductDetail from './Components/product/productDetail.jsx';
 import Cart from './Components/product/Cart.jsx';
@@ -118,6 +119,10 @@ const router = createBrowserRouter([
       {
         path: "/view-products",
         element: <Viewproducts />
+      },
+      {
+        path: "/add-category",
+        element: <AddCategory  />
       }
     ]
   }

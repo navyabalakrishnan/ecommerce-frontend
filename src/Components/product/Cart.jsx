@@ -1,12 +1,11 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+
 function Cart() {
-  const [cart,setCart] = useState([]);
+  const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
-  const [cartId, setCartId] = useState(null); 
+  const [cartId, setCartId] = useState(null);
 
   useEffect(() => {
     const getCart = async () => {
@@ -31,7 +30,8 @@ function Cart() {
       const data = res.data;
       console.log(data);
       if (data.message === "item is deleted") {
-        window.location.reload();
+        setCart(cart.filter(item => item.product._id !== productId)); 
+        setTotal(total - (cart.find(item => item.product._id === productId)?.product.price * cart.find(item => item.product._id === productId)?.quantity || 0));
       }
     } catch (error) {
       console.error("Error deleting cart item:", error);
@@ -48,18 +48,17 @@ function Cart() {
         <div className="flex justify-between font-bold text-lg">
           <span>Total:</span>
           <span>₹{total}</span>
-         
+        </div>
       </div>
-   </div>
- 
-
       <div>
-        <div className="relative overflow-x-auto mt-20 ">  <div className='absolute mt-50 top-0 right-0'> <Link to="/checkout">
-            <button className= "m-8 bg-sky-800 w-auto hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full font-serif ">
-              Proceed to Checkout
-            </button>
-          </Link>
-      </div>
+        <div className="relative overflow-x-auto mt-20">
+          <div className='absolute mt-50 top-0 right-0'>
+            <Link to="/checkout">
+              <button className="m-8 bg-sky-800 w-auto hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full font-serif">
+                Proceed to Checkout
+              </button>
+            </Link>
+          </div>
           <table className="w-3/4 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-500">
             <thead className="text-lg font-serif text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
@@ -71,21 +70,21 @@ function Cart() {
               </tr>
             </thead>
             <tbody>
-              {cart.map((item) => (
-                <tr key={item.product._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td className="px-6 py-4 ">
-                    <img src={item.product.image} height={100} width={100} alt={item.product.productName}  className='rounded-lg'/>
+              {cart.map((item, index) => (
+                <tr key={`${item.product?._id}-${index}`} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <td className="px-6 py-4">
+                    <img src={item.product?.image} height={100} width={100} alt={item.product?.productName} className='rounded-lg' />
                   </td>
                   <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {item.product.productName}
+                    {item.product?.productName}
                   </td>
-                  <td className="px-6 py-4">₹{item.product.price}</td>
+                  <td className="px-6 py-4">₹{item.product?.price}</td>
                   <td className="px-6 py-4">Quantity: {item.quantity}</td>
                   <td className="px-6 py-4">
                     <button
                       className="select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
                       type="button"
-                      onClick={() => handleRemove(item.product._id)}
+                      onClick={() => handleRemove(item.product?._id)}
                     >
                       Remove Item
                     </button>

@@ -74,10 +74,10 @@ const CheckoutPage = () => {
       <div className="absolute mr-20 mt-72 top-0 right-0 w-2/5 bg-white shadow-teal-950 shadow-inner rounded-lg">
         <h2 className="text-xl font-thin mb-4 flex justify-center font-abril text-blue-950">Your Order</h2>
         {cart.map((item, index) => (
-          <div key={index} className="flex justify-around font-bold text-lg">
-            <span><img className='rounded-lg' src={item.product.image} height={100} width={100} alt={item.product.name} /></span>
+          <div key={index} className="flex justify-around align-middle font-bold text-lg">
+            <span><img className='rounded-lg' src={item.product?.image || 'default-image.jpg'} height={100} width={100} alt={item.product.name} /></span>
             <div className='pl-10 font-serif '>
-              <h3>{item.product.productName}</h3>
+              <h3>{item.product?.name || 'Default Product Name'}</h3>
               <h3>Quantity: {item.quantity}</h3>
               <h3>Price: ${item.product.price}</h3>
               <hr class="h-px w-auto my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>

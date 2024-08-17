@@ -28,21 +28,20 @@ export default function SellerSignin() {
       const res = await axios.post(
         "http://localhost:3000/api/v1/seller/signin",
         data,
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
-     
+
       if (res.data.token) {
         localStorage.setItem("authToken", res.data.token);
         localStorage.setItem("sellerId", res.data.sellerId);
-   
 
-        navigate("/add-product"); 
-      } else if (res.data.message === "Password incorrect") {
-        setErrormessage("Incorrect Password");
-      } else if (res.data.message === "seller does not exist") {
-        setErrormessage("Seller does not exist. Please create an account");
+        if (res.data.role === "admin") {
+          navigate("/manage-sellers");
+        } else if (res.data.role === "seller") {
+          navigate("/add-product");
+        }
+      } else {
+        setErrormessage(res.data.message || "Sign-in failed");
       }
     } catch (error) {
       console.log("Error during sign-in:", error);
