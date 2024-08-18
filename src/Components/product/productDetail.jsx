@@ -87,7 +87,7 @@ const handleIncrease = () =>
         </div>
         <div className="flex justify-end my-4">
           <h2 className="font-playfair font-bold text-5xl text-purple-900">
-            <span className="text-6xl text-teal-700">$</span>
+            <span className="text-6xl text-teal-700">Rs  </span>
             <span className="bg-gradient-to-r from-sky-800 via-sky-900 to-sky-950 text-transparent bg-clip-text">
               {product.price}
             </span>

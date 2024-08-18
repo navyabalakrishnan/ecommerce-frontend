@@ -77,9 +77,9 @@ const CheckoutPage = () => {
           <div key={index} className="flex justify-around align-middle font-bold text-lg">
             <span><img className='rounded-lg' src={item.product?.image || 'default-image.jpg'} height={100} width={100} alt={item.product.name} /></span>
             <div className='pl-10 font-serif '>
-              <h3>{item.product?.name || 'Default Product Name'}</h3>
-              <h3>Quantity: {item.quantity}</h3>
-              <h3>Price: ${item.product.price}</h3>
+              <h3>{item.product.productName }</h3>
+              <h3>Quantity:{item.quantity}</h3>
+              <h3>Price: Rs{item.product.price}</h3>
               <hr class="h-px w-auto my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
             </div>
           </div>

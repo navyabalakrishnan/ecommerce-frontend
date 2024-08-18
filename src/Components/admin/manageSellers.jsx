@@ -18,7 +18,8 @@ const ManageSellers = () => {
   return (
     <div>
       <Adminsidebar />
-      <div className="relative overflow-x-auto flex justify-center pl-32 pt-40">
+      <div className="relative overflow-x-auto flex justify-center pl-32 pt">
+        
         <table className="w-3/4 text-sm pl-40 text-gray-500 dark:text-gray-500">
           <thead className="text-lg font-serif text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>

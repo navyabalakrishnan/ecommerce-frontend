@@ -4,6 +4,8 @@ import * as yup from "yup";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+import bcg from "../../assets/background.jpg"
+
 import { useNavigate } from "react-router-dom";
 
 const schema = yup
@@ -50,12 +52,20 @@ export default function Signup() {
     }
   };
 
-  return (
+  return ( <div className="relative h-screen">
+      <img
+        src={bcg}
+        alt="Luxurious Furniture"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
       <div className="flex justify-center items-center min-h-screen">
       <div className="w-full max-w-md p-4">
+     
+      <div className="absolute inset-0 flex justify-center items-center">
+
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-y-2 rounded-md border p-5 bg-white shadow-md"
+          className="flex flex-col gap-y-2 rounded-md border p-5 bg-white/80 shadow-md"
         >
           <input
             {...register("name")}
@@ -96,6 +106,8 @@ export default function Signup() {
           </p>
         </form>
       </div>
+    </div>
+    </div>
     </div>
   );
 }

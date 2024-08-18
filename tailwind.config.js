@@ -11,7 +11,8 @@ export default {
         abril: ['Abril Fatface', 'serif'],
       playfair:['Playfair Display', 'serif'],
       amatic:['Amatic SC', 'sans-serif'],
-      poppins:[ "Poppins", 'sans-serif']
+      poppins:[ "Poppins", 'sans-serif'],
+      live:["Dancing Script", 'cursive']
       },
     
     },
