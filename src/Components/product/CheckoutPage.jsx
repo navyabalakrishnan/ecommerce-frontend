@@ -1,11 +1,14 @@
+
+
+
+
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import SA from "../../assets/SA2.png";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+
 
 const schema = yup.object({
   full_name: yup.string().required('Full Name is required'),
@@ -20,8 +23,14 @@ const schema = yup.object({
 const CheckoutPage = () => {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
-  const [addressmsg, setAddressmsg] = useState("")
+  const [isOnlinePaymentDisabled, setIsOnlinePaymentDisabled] = useState(true);
   const navigate = useNavigate();
+
+  const { register, handleSubmit, setValue, formState: { errors, isValid } } = useForm({
+    resolver: yupResolver(schema),
+    mode: 'all', 
+  });
+
 
   useEffect(() => {
     const getCart = async () => {
@@ -36,11 +45,11 @@ const CheckoutPage = () => {
     getCart();
   }, []);
 
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm({
-    resolver: yupResolver(schema),
-  });
-
-  const onSubmit = async (data) => {
+ 
+  useEffect(() => {
+    setIsOnlinePaymentDisabled(!isValid);
+  }, [isValid]);
+ const onSubmit = async (data) => {
     try {
       const shippingAddress = {
         address: data.address,
@@ -54,157 +63,172 @@ const CheckoutPage = () => {
         full_name: data.full_name,
         email: data.email,
         shippingAddress,
-        paymentMethod: data.paymentMethod,
-     
-      },
-        { withCredentials: true });
+        paymentMethod: 'onlinePayment',
+      }, { withCredentials: true });
+
       console.log('Order created:', response.data);
-      navigate("/orderplaced")
+      return response.data._id; 
     } catch (error) {
       console.error('Error creating order:', error);
+      throw error;
     }
   };
 
+   const paymentHandler = async (formData) => {
+    try {
+      const orderId = await onSubmit(formData);
+
+      const paymentResponse = await axios.post("http://localhost:3000/api/v1/payment/order", { amount: total }, { withCredentials: true });
+      const order = paymentResponse.data.data;
+
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY,
+        amount: order.amount,
+        currency: order.currency,
+        name: "Liv.e",
+        description: "Test Transaction",
+        image: "https://i.ibb.co/5Y3m33n/test.png",
+        order_id: order.id,
+        handler: async function (response) {
+          const body = {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            orderId: orderId, 
+          };
+
+          try {
+            const validateResponse = await axios.post("http://localhost:3000/api/v1/payment/verify", body, { withCredentials: true });
+            console.log('Payment verification response:', validateResponse.data);
+
+            if (validateResponse.data.message === "Payment Successfully") {
+              navigate("/orderplaced");
+            }
+          } catch (error) {
+            console.error("Error verifying payment:", error);
+          }
+        },
+        prefill: {
+          name: formData.full_name,
+          email: formData.email,
+          contact: "9999999999",
+        },
+        notes: {
+          address: formData.address,
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      };
+
+      const rzp1 = new window.Razorpay(options);
+      rzp1.on("payment.failed", function (response) {
+        alert(response.error.code);
+      });
+
+      rzp1.open();
+    } catch (error) {
+      console.error("Error processing payment:", error);
+    }
+  };
 
   return (
-    <>
-      <div className='flex justify-center pt-24'>
-        <img src={SA} alt="Shipping Address" height={250} width={250} />
-      </div>
-      <div className="absolute mr-20 mt-72 top-0 right-0 w-2/5 bg-white shadow-teal-950 shadow-inner rounded-lg">
-        <h2 className="text-xl font-thin mb-4 flex justify-center font-abril text-blue-950">Your Order</h2>
-        {cart.map((item, index) => (
-          <div key={index} className="flex justify-around align-middle font-bold text-lg">
-            <span><img className='rounded-lg' src={item.product?.image || 'default-image.jpg'} height={100} width={100} alt={item.product.name} /></span>
-            <div className='pl-10 font-serif '>
-              <h3>{item.product.productName }</h3>
-              <h3>Quantity:{item.quantity}</h3>
-              <h3>Price: Rs{item.product.price}</h3>
-              <hr class="h-px w-auto my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
-            </div>
-          </div>
-        ))}
-        <div className="font-abril flex justify-center text-lg">
-          <h3>Order Total: ${total}</h3>
+    <div className="flex flex-col items-center justify-center h-screen mt-48 bg-gray-100">
+      <form
+        onSubmit={handleSubmit(paymentHandler)}
+        className="w-full max-w-lg bg-white p-8 rounded-lg shadow-md"
+      >
+        <h2 className="text-2xl font-bold mb-6">Checkout</h2>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Full Name
+          </label>
+          <input
+            type="text"
+            {...register("full_name")}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+          />
+          {errors.full_name && <p className="text-red-500 text-sm mt-1">{errors.full_name.message}</p>}
         </div>
-        <div className='flex justify-around mt-4'>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Email
+          </label>
+          <input
+            type="email"
+            {...register("email")}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+          />
+          {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Address
+          </label>
+          <input
+            type="text"
+            {...register("address")}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+          />
+          {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address.message}</p>}
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            City
+          </label>
+          <input
+            type="text"
+            {...register("city")}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+          />
+          {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city.message}</p>}
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            State
+          </label>
+          <input
+            type="text"
+            {...register("state")}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+          />
+          {errors.state && <p className="text-red-500 text-sm mt-1">{errors.state.message}</p>}
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Country
+          </label>
+          <input
+            type="text"
+            {...register("country")}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+          />
+          {errors.country && <p className="text-red-500 text-sm mt-1">{errors.country.message}</p>}
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Zipcode
+          </label>
+          <input
+            type="text"
+            {...register("zipcode")}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+          />
+          {errors.zipcode && <p className="text-red-500 text-sm mt-1">{errors.zipcode.message}</p>}
+        </div>
+        <div className="flex justify-center mt-4">
           <button
-            onClick={() => setValue('paymentMethod', 'cash_on_delivery')}
-            className="bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full font-serif cursor-pointer">
-            Cash on Delivery
-          </button>
-          <button
-            onClick={() => setValue('paymentMethod', 'onlinePayment')}
-            className="bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full font-serif cursor-pointer">
-            Online Payment
+            type="submit"
+            className={`bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full font-serif cursor-pointer ${isOnlinePaymentDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+            disabled={isOnlinePaymentDisabled}
+          >
+            Pay Online
           </button>
         </div>
- <button
-          type="submit"
-          className="bg-sky-800 w-full hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full font-serif cursor-pointer mt-4"
-          onClick={handleSubmit(onSubmit)}
-        >
-          Place Order
-        </button> 
-      </div>
-      <div className="pl-20 mt-12">
-        <h1 className="text-cyan-950 font-playfair text-4xl">Shipping Address</h1>
-        <p>Please fill out all the fields.</p>
-      </div>
-      <div className="min-h-screen pl-20 flex justify-start">
-        <div className="max-w-screen-sm">
-          <div className="bg-white rounded shadow-lg shadow-cyan-700 p-4 px-4 md:p-8 mb-6">
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="grid gap-4 gap-y-2 grid-cols-1 font-serif">
-                <div className="lg:col-span-2">
-                  <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
-                    <div className="md:col-span-5">
-                      <label htmlFor="full_name">Full Name</label>
-                      <input
-                        type="text"
-                        id="full_name"
-                        {...register('full_name')}
-                        className="h-10 border mt-1 rounded px-4 w-3/6 bg-gray-50"
-                      />
-                      {errors.full_name && <p className="text-red-600">{errors.full_name.message}</p>}
-                    </div>
-                    <div className="md:col-span-5">
-                      <label htmlFor="email">Email Address</label>
-                      <input
-                        type="text"
-                        id="email"
-                        {...register('email')}
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                        placeholder="email@domain.com"
-                      />
-                      {errors.email && <p className="text-red-600">{errors.email.message}</p>}
-                    </div>
-                    <div className="md:col-span-3">
-                      <label htmlFor="address">Address / Street</label>
-                      <input
-                        type="text"
-                        id="address"
-                        {...register('address')}
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                      />
-                      {errors.address && <p className="text-red-600">{errors.address.message}</p>}
-                    </div>
-                    <div className="md:col-span-2">
-                      <label htmlFor="city">City</label>
-                      <input
-                        type="text"
-                        id="city"
-                        {...register('city')}
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                      />
-                      {errors.city && <p className="text-red-600">{errors.city.message}</p>}
-                    </div>
-                    <div className="md:col-span-2">
-                      <label htmlFor="country">Country / Region</label>
-                      <input
-                        type="text"
-                        id="country"
-                        {...register('country')}
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                      />
-                      {errors.country && <p className="text-red-600">{errors.country.message}</p>}
-                    </div>
-                    <div className="md:col-span-2">
-                      <label htmlFor="state">State / Province</label>
-                      <input
-                        type="text"
-                        id="state"
-                        {...register('state')}
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                      />
-                      {errors.state && <p className="text-red-600">{errors.state.message}</p>}
-                    </div>
-                    <div className="md:col-span-1">
-                      <label htmlFor="zipcode">Zipcode</label>
-                      <input
-                        type="text"
-                        id="zipcode"
-                        {...register('zipcode')}
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                      />
-                      {errors.zipcode && <p className="text-red-600">{errors.zipcode.message}</p>}
-                    </div>
-                    <div className="md:col-span-5 text-right">
-                      {/* <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Submit
-                      </button> */}
-                      {addressmsg && <div className='mt-4 text-green-900 font-semibold'>{addressmsg}</div>}
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </>
+      </form>
+    </div>
   );
 };
 
 export default CheckoutPage;
+
