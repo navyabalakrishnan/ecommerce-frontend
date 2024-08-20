@@ -10,7 +10,7 @@ function Cart() {
   useEffect(() => {
     const getCart = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/api/v1/cart', { withCredentials: true });
+        const res = await axios.get(`http://localhost:3000/api/v1/cart`, { withCredentials: true });
         setCart(res.data.items || []);
         setTotal(res.data.total || 0);
         setCartId(res.data._id); 

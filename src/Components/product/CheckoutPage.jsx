@@ -10,6 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 
+import SA from "../../assets/SA2.png";
 const schema = yup.object({
   full_name: yup.string().required('Full Name is required'),
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -35,7 +36,7 @@ const CheckoutPage = () => {
   useEffect(() => {
     const getCart = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/api/v1/cart', { withCredentials: true });
+        const res = await axios.get(`http://localhost:3000/api/v1/cart`, { withCredentials: true });
         setCart(res.data.items || []);
         setTotal(res.data.total || 0);
       } catch (error) {
@@ -59,7 +60,7 @@ const CheckoutPage = () => {
         zipcode: data.zipcode,
       };
 
-      const response = await axios.post('http://localhost:3000/api/v1/order', {
+      const response = await axios.post(`http://localhost:3000/api/v1/order`, {
         full_name: data.full_name,
         email: data.email,
         shippingAddress,
@@ -78,7 +79,7 @@ const CheckoutPage = () => {
     try {
       const orderId = await onSubmit(formData);
 
-      const paymentResponse = await axios.post("http://localhost:3000/api/v1/payment/order", { amount: total }, { withCredentials: true });
+      const paymentResponse = await axios.post(`http://localhost:3000/api/v1/payment/order`, { amount: total }, { withCredentials: true });
       const order = paymentResponse.data.data;
 
       const options = {
@@ -98,7 +99,7 @@ const CheckoutPage = () => {
           };
 
           try {
-            const validateResponse = await axios.post("http://localhost:3000/api/v1/payment/verify", body, { withCredentials: true });
+            const validateResponse = await axios.post(`http://localhost:3000/api/v1/payment/verify`, body, { withCredentials: true });
             console.log('Payment verification response:', validateResponse.data);
 
             if (validateResponse.data.message === "Payment Successfully") {
@@ -133,7 +134,32 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen mt-48 bg-gray-100">
+    <>
+    <div className='flex justify-center pt-24'>
+      <img src={SA} alt="Shipping Address" height={250} width={250} />
+    </div>
+
+    <div className="absolute mr-20 mt-72 top-0 right-0 w-2/5 bg-white shadow-teal-950 shadow-inner rounded-lg">
+      <h2 className="text-xl font-thin mb-4 flex justify-center font-abril text-blue-950">Your Order</h2>
+      {cart.map((item, index) => (
+        <div key={index} className="flex justify-around align-middle font-bold text-lg">
+          <span><img className='rounded-lg' src={item.product?.image || 'default-image.jpg'} height={100} width={100} alt={item.product.name} /></span>
+          <div className='pl-10 font-serif '>
+            <h3>{item.product.productName || 'Default Product Name'}</h3>
+            <h3>Quantity: {item.quantity}</h3>
+            <h3>Price: {item.product.price}</h3>
+            <hr className="h-px w-auto my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+          </div>
+        </div>
+      ))}
+      <div className="font-abril flex justify-center text-lg">
+        <h3>Order Total: {total}</h3>
+      </div>
+    </div>
+
+    <div className="pl-20 mt">
+    <h1 className="text-cyan-950 font-playfair text-4xl">Shipping Address</h1>
+    <p>Please fill out all the fields.</p>
       <form
         onSubmit={handleSubmit(paymentHandler)}
         className="w-full max-w-lg bg-white p-8 rounded-lg shadow-md"
@@ -207,7 +233,7 @@ const CheckoutPage = () => {
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-            Zipcode
+            Zip Code
           </label>
           <input
             type="text"
@@ -216,17 +242,18 @@ const CheckoutPage = () => {
           />
           {errors.zipcode && <p className="text-red-500 text-sm mt-1">{errors.zipcode.message}</p>}
         </div>
-        <div className="flex justify-center mt-4">
-          <button
-            type="submit"
-            className={`bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full font-serif cursor-pointer ${isOnlinePaymentDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-            disabled={isOnlinePaymentDisabled}
-          >
-            Pay Online
-          </button>
-        </div>
+
+        <button
+          type="submit"
+          className={`w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 ${isOnlinePaymentDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={isOnlinePaymentDisabled}
+        >
+          Pay Now
+        </button>
       </form>
     </div>
+  </>
+
   );
 };
 

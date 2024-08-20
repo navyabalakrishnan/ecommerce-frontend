@@ -27,7 +27,7 @@ export default function Signup() {
   const onSubmit = async (data) => {
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/v1/seller/signup",
+       `http://localhost:3000/api/v1/seller/signup`,
         data,
         {
           withCredentials: true,
@@ -36,7 +36,7 @@ export default function Signup() {
       if (res.data.token) {
         localStorage.setItem("authToken", res.data.token);
 
-        navigate("/add-product");
+        navigate("/seller-signin");
       } else if (res.data.message === "Password incorrect") {
         setErrormessage("Incorrect Password");
       } else if (res.data.message === "seller does not exist") {

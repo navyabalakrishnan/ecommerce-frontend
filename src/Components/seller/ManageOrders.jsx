@@ -10,7 +10,7 @@ useEffect(() => {
     const getOrders = async () => {
       try {
         const token = localStorage.getItem('authToken');
-        const res = await axios.get('http://localhost:3000/api/v1/order/getorders',{
+        const res = await axios.get(`http://localhost:3000/api/v1/order/getorders`,{
                   headers: {
             Authorization: `Bearer ${token}`
           }

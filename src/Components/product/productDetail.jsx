@@ -36,7 +36,8 @@ const handleIncrease = () =>
 
   const addToCart = async () => {
     try {
-      const token = Cookies.get('token');
+      // const token = Cookies.get('token');
+      const token = localStorage.getItem('authToken');
       if (!token) return console.error("Authentication token not found");
 
       const requestBody = { product: product._id, quantity };
@@ -54,7 +55,7 @@ const handleIncrease = () =>
       const token = Cookies.get('token');
       if (!token) return console.error("Authentication token not found");
 
-      await axios.post('http://localhost:3000/api/v1/reviews/create', {
+      await axios.post(`http://localhost:3000/api/v1/reviews/create`, {
         productId: product._id,
         rating,
         comment,

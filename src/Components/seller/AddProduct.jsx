@@ -22,7 +22,7 @@ const AddProduct = () => {
   useEffect(() => {
     const getSellers = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/v1/seller/get-sellers");
+        const res = await axios.get(`http://localhost:3000/api/v1/seller/get-sellers`);
         setSellers(res.data);
       } catch (error) {
         console.error("Error fetching sellers:", error);
@@ -31,7 +31,7 @@ const AddProduct = () => {
 
     const fetchCategories = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/api/v1/category/get-category');
+        const res = await axios.get(`http://localhost:3000/api/v1/category/get-category`);
         setCategory(res.data); 
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -59,7 +59,7 @@ const AddProduct = () => {
     try {
     
       const res = await axios.post(
-        "http://localhost:3000/api/v1/product/add-products",
+        `http://localhost:3000/api/v1/product/add-products`,
         formData,
         {
           withCredentials: true,

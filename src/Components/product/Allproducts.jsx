@@ -8,7 +8,7 @@ function Allproducts() {
     const getProducts=async () =>
     {
       try{
-        const response=await axios.get('http://localhost:3000/api/v1/product')
+        const response=await axios.get(`http://localhost:3000/api/v1/product`)
      setProducts(response.data)
       }catch(error)
       {

@@ -8,7 +8,7 @@ const ManageSellers = () => {
 
   useEffect(() => {
     const getSellers = async () => {
-      const res = await axios.get("http://localhost:3000/api/v1/seller/get-sellers");
+      const res = await axios.get(`http://localhost:3000/api/v1/seller/get-sellers`);
       const sellerData = await res.data;
       setSellers(sellerData);
     };
