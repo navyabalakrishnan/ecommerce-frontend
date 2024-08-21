@@ -18,9 +18,9 @@ function ProductDetail() {
   useEffect(() => {
     const fetchProductAndReviews = async () => {
       try {
-        const productResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/product/${id}`);
+        const productResponse = await axios.get(`http://localhost:3000/api/v1/product/${id}`);
         setProduct(productResponse.data);
-        const reviewsResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/reviews/${id}`);
+        const reviewsResponse = await axios.get(`http://localhost:3000/api/v1/reviews/${id}`);
         setReviews(reviewsResponse.data);
       } catch (error) {
         console.error("Error fetching product and reviews:", error);
@@ -41,7 +41,7 @@ const handleIncrease = () =>
       if (!token) return console.error("Authentication token not found");
 
       const requestBody = { product: product._id, quantity };
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/cart/addtocart`, requestBody, { withCredentials: true });
+      const res = await axios.post(`http://localhost:3000/api/v1/cart/addtocart`, requestBody, { withCredentials: true });
 
       if (res.status === 200 || res.status === 201) setMessage("Product added to cart successfully");
       else console.log("Failed to add product to cart", res.data);
@@ -55,7 +55,7 @@ const handleIncrease = () =>
       const token = Cookies.get('token');
       if (!token) return console.error("Authentication token not found");
 
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/reviews/create`, {
+      await axios.post(`http://localhost:3000/api/v1/reviews/create`, {
         productId: product._id,
         rating,
         comment,
@@ -68,7 +68,7 @@ const handleIncrease = () =>
       setComment("");
       setShowReviewSection(false);
 
-      const reviewsResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/reviews/${id}`);
+      const reviewsResponse = await axios.get(`http://localhost:3000/api/v1/reviews/${id}`);
       setReviews(reviewsResponse.data);
     } catch (error) {
       console.error('Error submitting review:', error.response ? error.response.data : error.message);

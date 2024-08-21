@@ -9,7 +9,7 @@ const UserRoutes = ({ children }) => {
     const checkUser = async () => {
       try {
         const res = await axios.get(
-         `${import.meta.env.VITE_API_URL}/api/v1/user/check-user`,
+         `http://localhost:3000/api/v1/user/check-user`,
           {
             withCredentials: true,
           },
