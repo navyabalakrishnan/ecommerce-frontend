@@ -18,7 +18,7 @@ const AddProduct = () => {
   const [sellers, setSellers] = useState([]);
   const [categories, setCategory] = useState([]);
   const [message, setMessage] = useState('');
-
+  
   useEffect(() => {
     const getSellers = async () => {
       try {
@@ -52,7 +52,7 @@ const AddProduct = () => {
     formData.append('description', data.description);
     formData.append('price', data.price);
 
-    formData.append('sellerEmail', data.sellerEmail);
+    formData.append('sellerEmail', loggedInSellerEmail);
     formData.append('category', data.category);
     formData.append('image', data.image[0]);
 

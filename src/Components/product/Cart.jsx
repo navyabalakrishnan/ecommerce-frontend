@@ -76,7 +76,7 @@ function Cart() {
                     <img src={item.product?.image} height={100} width={100} alt={item.product?.productName} className='rounded-lg' />
                   </td>
                   <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {item.product.productName}
+                    {item.product?.productName}
                   </td>
                   <td className="px-6 py-4">₹{item.product?.price}</td>
                   <td className="px-6 py-4">Quantity: {item.quantity}</td>
