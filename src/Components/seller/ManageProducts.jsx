@@ -11,7 +11,7 @@ function ManageProducts() {
       try {
         const token = localStorage.getItem('authToken');
         
-        const res = await axios.get(`http://localhost:3000/api/v1/product/manage-products`, {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/product/manage-products`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -28,7 +28,7 @@ function ManageProducts() {
   const handleRemovebySeller = async (productId) => {
     try {
       const token = localStorage.getItem('authToken');
-      const res = await axios.delete(`http://localhost:3000/api/v1/product/${productId}`, {
+      const res = await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/product/${productId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

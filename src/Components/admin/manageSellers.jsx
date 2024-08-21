@@ -8,7 +8,7 @@ const ManageSellers = () => {
 
   useEffect(() => {
     const getSellers = async () => {
-      const res = await axios.get(`http://localhost:3000/api/v1/seller/get-sellers`);
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/seller/get-sellers`);
       const sellerData = await res.data;
       setSellers(sellerData);
     };
@@ -39,7 +39,7 @@ const ManageSellers = () => {
                   <div className="flex justify-center">
                     <button
                       onClick={async () => {
-                        const res = await axios.delete(`http://localhost:3000/api/v1/seller/${seller._id}`);
+                        const res = await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/seller/${seller._id}`);
                         const data = await res.data;
                         console.log(data);
                         if (data.message === "Seller deleted successfully") {

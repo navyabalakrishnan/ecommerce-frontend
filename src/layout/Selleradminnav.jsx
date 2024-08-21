@@ -7,7 +7,7 @@ function Selleradminnav() {
   const navigate=useNavigate()
   const handleSellerLogout = async () => {
     try {
-      await axios.post(`http://localhost:3000/api/v1/users/logout`, {}, { withCredentials: true });
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/users/logout`, {}, { withCredentials: true });
       localStorage.removeItem('authToken');
       navigate('/');
     } catch (error) {
