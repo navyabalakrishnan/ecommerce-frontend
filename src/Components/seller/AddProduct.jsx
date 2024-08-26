@@ -1,48 +1,54 @@
+
+
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import axios from 'axios';
 import Sellersidebar from './Sellersidebar';
 
 const schema = yup.object({
   productName: yup.string().required('Product Name is required'),
   description: yup.string().required('Description is required'),
   price: yup.number().required('Price is required').positive().integer(),
-  sellerEmail: yup.string().email('Invalid email').required('Seller Email is required'),
   category: yup.string().required('Category is required'),
   image: yup.mixed().required('Image is required'),
 });
 
 const AddProduct = () => {
-  const [sellers, setSellers] = useState([]);
-  const [categories, setCategory] = useState([]);
+  const [sellerEmail, setSellerEmail] = useState('');
+  const [categories, setCategories] = useState([]);
   const [message, setMessage] = useState('');
-  
+
+
   useEffect(() => {
-    const getSellers = async () => {
+    const fetchSellerEmail = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/v1/seller/get-sellers`);
-        setSellers(res.data);
+        const sellerId = localStorage.getItem('sellerId');
+        const res = await axios.get('http://localhost:3000/api/v1/seller/get-selleremail', {
+          params: { sellerId }, 
+          withCredentials: true,
+        });
+        setSellerEmail(res.data.email);
       } catch (error) {
-        console.error("Error fetching sellers:", error);
+        console.error("Error fetching seller's email:", error);
       }
     };
 
-    const fetchCategories = async () => {
+      const fetchCategories = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/v1/category/get-category`);
-        setCategory(res.data); 
+        const res = await axios.get('http://localhost:3000/api/v1/category/get-category');
+        setCategories(res.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
     };
-
-    getSellers();
     fetchCategories();
+    fetchSellerEmail();
   }, []);
+  
 
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -51,15 +57,13 @@ const AddProduct = () => {
     formData.append('productName', data.productName);
     formData.append('description', data.description);
     formData.append('price', data.price);
-
-    formData.append('sellerEmail', loggedInSellerEmail);
+    formData.append('sellerEmail', sellerEmail); 
     formData.append('category', data.category);
     formData.append('image', data.image[0]);
 
     try {
-    
       const res = await axios.post(
-        `http://localhost:3000/api/v1/product/add-products`,
+        'http://localhost:3000/api/v1/product/add-products',
         formData,
         {
           withCredentials: true,
@@ -75,6 +79,7 @@ const AddProduct = () => {
       setMessage('Failed to add product. Please try again.');
     }
   };
+
   return (
     <>
       <Sellersidebar />
@@ -91,7 +96,6 @@ const AddProduct = () => {
             <p className="text-red-500">{errors.productName?.message}</p>
           </div>
 
-        
           <div className="mb-4">
             <label className="block text-gray-700">Description</label>
             <textarea
@@ -100,6 +104,7 @@ const AddProduct = () => {
             ></textarea>
             <p className="text-red-500">{errors.description?.message}</p>
           </div>
+
           <div className="mb-4">
             <label className="block text-gray-700">Price</label>
             <input
@@ -109,18 +114,17 @@ const AddProduct = () => {
             />
             <p className="text-red-500">{errors.price?.message}</p>
           </div>
-         
+
           <div className="mb-4">
             <label className="block text-gray-700">Seller Email</label>
-            <select {...register('sellerEmail')} className="mt-1 p-2 border w-full">
-              {sellers.map((seller, index) => (
-                <option key={index} value={seller.email}>
-                  {seller.email}
-                </option>
-              ))}
-            </select>
-            <p className="text-red-500">{errors.sellerEmail?.message}</p>
+            <input
+              type="text"
+              value={sellerEmail} 
+              readOnly
+              className="mt-1 p-2 border w-full bg-gray-100"
+            />
           </div>
+
           <div className="mb-4">
             <label className="block text-gray-700">Category</label>
             <select {...register('category')} className="mt-1 p-2 border w-full">
@@ -133,7 +137,8 @@ const AddProduct = () => {
             </select>
             <p className="text-red-500">{errors.category?.message}</p>
           </div>
-   <div className="mb-4">
+
+          <div className="mb-4">
             <label className="block text-gray-700">Image</label>
             <input
               type="file"
@@ -142,6 +147,7 @@ const AddProduct = () => {
             />
             <p className="text-red-500">{errors.image?.message}</p>
           </div>
+
           <button type="submit" className="bg-blue-500 text-white p-2 rounded">
             Add Product
           </button>

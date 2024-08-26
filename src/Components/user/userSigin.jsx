@@ -87,7 +87,7 @@ export default function Signin() {
             className="rounded-md bg-sky-950  py-1 text-white ease-in hover:scale-105 hover:transition-all hover:delay-150"
           />
           <p>
-            User not created yet{" "}
+            Create an account{" "}
             <Link to="/user-signup" className="text-blue-500 underline">
               Signup
             </Link>

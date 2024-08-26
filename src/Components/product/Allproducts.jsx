@@ -20,7 +20,7 @@ function Allproducts() {
   return (
     <div className='min-h-screen'>
       <div className='flex items-center align-middle justify-center'>
-        <h1 className="text-yellow-600 text-5xl mt-28  font-bold mb-4 font-playfair">Discover Style and Comfort</h1>
+        <h1 className="text-sky-950 text-5xl mt-28  font-bold mb-4 font-live">Discover Style and Comfort...</h1>
       </div>
       <div className="flex flex-wrap mt-10 ml-10">
         {products.map((product) => (

@@ -107,7 +107,7 @@ const handleIncrease = () =>
             <button className='bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full font-serif' onClick={handleIncrease}>+</button>
             <button onClick={addToCart} className='text-white font-playfair text-lg bg-sky-800 hover:bg-sky-950 rounded-md px-32 py-2 font-bold'>Add to cart</button>
           </div>
-          {message && <div className='mt-4 text-green-900 font-semibold'>{message}</div>}
+          {message && <div className='mt-4 text-green-900 font-playfair font-semibold'>{message}</div>}
         </div>
         <br />
         <div className='pl-36'>
