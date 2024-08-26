@@ -10,7 +10,7 @@ function Cart() {
   useEffect(() => {
     const getCart = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/v1/cart`, { withCredentials: true });
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/cart`, { withCredentials: true });
         setCart(res.data.items || []);
         setTotal(res.data.total || 0);
         setCartId(res.data._id); 
@@ -23,7 +23,7 @@ function Cart() {
 
   const handleRemove = async (productId) => {
     try {
-      const res = await axios.delete(`http://localhost:3000/api/v1/cart/${productId}`, {
+      const res = await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/cart/${productId}`, {
         withCredentials: true,
         data: { cartId },
       });

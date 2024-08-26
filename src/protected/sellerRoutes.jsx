@@ -7,7 +7,7 @@ function sellerRoutes({children}) {
         const checkSeller = async () => {
           try {
             const res = await axios.get(
-             `http://localhost:3000/api/v1/seller/check-seller`,
+             `${import.meta.env.VITE_API_URL}/api/v1/seller/check-seller`,
               {
                 withCredentials: true,
               },

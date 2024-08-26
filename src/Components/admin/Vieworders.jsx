@@ -9,7 +9,7 @@ function Vieworders() {
     const getOrders = async () => {
       try {
         const token = localStorage.getItem('authToken');
-        const res = await axios.get(`http://localhost:3000/api/v1/order/getAllOrders`, {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/order/getAllOrders`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

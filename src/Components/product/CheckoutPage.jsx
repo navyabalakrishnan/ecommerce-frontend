@@ -31,7 +31,7 @@ const CheckoutPage = () => {
   useEffect(() => {
     const getCart = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/v1/cart`, { withCredentials: true });
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/cart`, { withCredentials: true });
         setCart(res.data.items || []);
         setTotal(res.data.total || 0);
       } catch (error) {
@@ -55,7 +55,7 @@ const CheckoutPage = () => {
         zipcode: data.zipcode,
       };
 
-      const response = await axios.post(`http://localhost:3000/api/v1/order`, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/order`, {
         full_name: data.full_name,
         email: data.email,
         shippingAddress,
@@ -73,7 +73,7 @@ const CheckoutPage = () => {
     try {
       const orderId = await onSubmit(formData);
 
-      const paymentResponse = await axios.post(`http://localhost:3000/api/v1/payment/order`, { amount: total }, { withCredentials: true });
+      const paymentResponse = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/payment/order`, { amount: total }, { withCredentials: true });
       const order = paymentResponse.data.data;
 
       const options = {
@@ -93,7 +93,7 @@ const CheckoutPage = () => {
           };
 
           try {
-            const validateResponse = await axios.post(`http://localhost:3000/api/v1/payment/verify`, body, { withCredentials: true });
+            const validateResponse = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/payment/verify`, body, { withCredentials: true });
             if (validateResponse.data.message === "Payment Successfully") {
               navigate("/orderplaced");
             }

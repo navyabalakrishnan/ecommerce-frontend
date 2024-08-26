@@ -26,7 +26,7 @@ export default function SellerSignin() {
   const onSubmit = async (data) => {
     try {
       const res = await axios.post(
-        `http://localhost:3000/api/v1/seller/signin`,
+        `${import.meta.env.VITE_API_URL}/api/v1/seller/signin`,
         data,
         { withCredentials: true }
       );

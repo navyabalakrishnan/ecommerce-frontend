@@ -22,7 +22,7 @@ const AddProduct = () => {
     const fetchSellerEmail = async () => {
       try {
         const sellerId = localStorage.getItem('sellerId');
-        const res = await axios.get('http://localhost:3000/api/v1/seller/get-selleremail', {
+        const res = await axios.get('${import.meta.env.VITE_API_URL}/api/v1/seller/get-selleremail', {
           params: { sellerId }, 
           withCredentials: true,
         });
@@ -34,7 +34,7 @@ const AddProduct = () => {
 
     const fetchCategories = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/api/v1/category/get-category');
+        const res = await axios.get('${import.meta.env.VITE_API_URL}/api/v1/category/get-category');
         setCategories(res.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -60,7 +60,7 @@ const AddProduct = () => {
 
     try {
       const res = await axios.post(
-        'http://localhost:3000/api/v1/product/add-products',
+        `${import.meta.env.VITE_API_URL}/api/v1/product/add-products`,
         formData,
         {
           withCredentials: true,
