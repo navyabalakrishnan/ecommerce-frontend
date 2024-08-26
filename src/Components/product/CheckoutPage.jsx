@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
@@ -7,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-
 import SA from "../../assets/SA2.png";
+
 const schema = yup.object({
   full_name: yup.string().required('Full Name is required'),
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -25,11 +23,10 @@ const CheckoutPage = () => {
   const [isOnlinePaymentDisabled, setIsOnlinePaymentDisabled] = useState(true);
   const navigate = useNavigate();
 
-  const { register, handleSubmit, setValue, formState: { errors, isValid } } = useForm({
+  const { register, handleSubmit, formState: { errors, isValid } } = useForm({
     resolver: yupResolver(schema),
-    mode: 'all', 
+    mode: 'all',
   });
-
 
   useEffect(() => {
     const getCart = async () => {
@@ -44,11 +41,11 @@ const CheckoutPage = () => {
     getCart();
   }, []);
 
- 
   useEffect(() => {
     setIsOnlinePaymentDisabled(!isValid);
   }, [isValid]);
- const onSubmit = async (data) => {
+
+  const onSubmit = async (data) => {
     try {
       const shippingAddress = {
         address: data.address,
@@ -65,15 +62,14 @@ const CheckoutPage = () => {
         paymentMethod: 'onlinePayment',
       }, { withCredentials: true });
 
-      console.log('Order created:', response.data);
-      return response.data._id; 
+      return response.data._id;
     } catch (error) {
       console.error('Error creating order:', error);
       throw error;
     }
   };
 
-   const paymentHandler = async (formData) => {
+  const paymentHandler = async (formData) => {
     try {
       const orderId = await onSubmit(formData);
 
@@ -93,13 +89,11 @@ const CheckoutPage = () => {
             razorpay_order_id: response.razorpay_order_id,
             razorpay_payment_id: response.razorpay_payment_id,
             razorpay_signature: response.razorpay_signature,
-            orderId: orderId, 
+            orderId: orderId,
           };
 
           try {
             const validateResponse = await axios.post(`http://localhost:3000/api/v1/payment/verify`, body, { withCredentials: true });
-            console.log('Payment verification response:', validateResponse.data);
-
             if (validateResponse.data.message === "Payment Successfully") {
               navigate("/orderplaced");
             }
@@ -132,126 +126,109 @@ const CheckoutPage = () => {
   };
 
   return (
-    <>
-    <div className='flex justify-center pt-24'>
-      <img src={SA} alt="Shipping Address" height={250} width={250} />
-    </div>
+    <div className="container mx-auto px-4">
+      <div className='flex justify-center pt-24'>
+        <img src={SA} alt="Shipping Address" className="w-32 h-32 sm:w-48 sm:h-48" />
+      </div>
 
-    <div className="absolute mr-20 mt-72 top-0 right-0 w-2/5 bg-white shadow-teal-950 shadow-inner rounded-lg">
-      <h2 className="text-xl font-thin mb-4 flex justify-center font-abril text-blue-950">Your Order</h2>
-      {cart.map((item, index) => (
-        <div key={index} className="flex justify-around align-middle font-bold text-lg">
-          <span><img className='rounded-lg' src={item.product?.image || 'default-image.jpg'} height={100} width={100} alt={item.product.name} /></span>
-          <div className='pl-10 font-serif '>
-            <h3>{item.product.productName || 'Default Product Name'}</h3>
-            <h3>Quantity: {item.quantity}</h3>
-            <h3>Price: {item.product.price}</h3>
-            <hr className="h-px w-auto my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+      <div className="relative w-full max-w-4xl mx-auto bg-white shadow-lg rounded-lg mt-8 p-6 md:p-8">
+        <h2 className="text-xl font-thin mb-4 text-center text-blue-950">Your Order</h2>
+        {cart.map((item, index) => (
+          <div key={index} className="flex flex-col sm:flex-row items-center mb-4">
+            <img className='rounded-lg w-24 h-24 sm:w-32 sm:h-32' src={item.product?.image || 'default-image.jpg'} alt={item.product.name} />
+            <div className='pl-0 sm:pl-10 text-center sm:text-left'>
+              <h3 className='text-lg font-semibold'>{item.product.productName || 'Default Product Name'}</h3>
+              <h3>Quantity: {item.quantity}</h3>
+              <h3>Price: ₹{item.product.price}</h3>
+            </div>
           </div>
+        ))}
+        <div className="text-center mt-4 font-semibold text-lg">
+          <h3>Order Total: ₹{total}</h3>
         </div>
-      ))}
-      <div className="font-abril flex justify-center text-lg">
-        <h3>Order Total: {total}</h3>
+      </div>
+
+      <div className="mt-8">
+        <h1 className="text-cyan-950 font-playfair text-4xl text-center mb-4">Shipping Address</h1>
+        <p className="text-center mb-4">Please fill out all the fields.</p>
+        <form
+          onSubmit={handleSubmit(paymentHandler)}
+          className="w-full max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md"
+        >
+          <h2 className="text-2xl font-bold mb-6 text-center">Checkout</h2>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Full Name</label>
+            <input
+              type="text"
+              {...register("full_name")}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+            />
+            {errors.full_name && <p className="text-red-500 text-sm mt-1">{errors.full_name.message}</p>}
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Email</label>
+            <input
+              type="email"
+              {...register("email")}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+            />
+            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Address</label>
+            <input
+              type="text"
+              {...register("address")}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+            />
+            {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address.message}</p>}
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">City</label>
+            <input
+              type="text"
+              {...register("city")}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+            />
+            {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city.message}</p>}
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">State</label>
+            <input
+              type="text"
+              {...register("state")}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+            />
+            {errors.state && <p className="text-red-500 text-sm mt-1">{errors.state.message}</p>}
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Country</label>
+            <input
+              type="text"
+              {...register("country")}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+            />
+            {errors.country && <p className="text-red-500 text-sm mt-1">{errors.country.message}</p>}
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Zipcode</label>
+            <input
+              type="text"
+              {...register("zipcode")}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+            />
+            {errors.zipcode && <p className="text-red-500 text-sm mt-1">{errors.zipcode.message}</p>}
+          </div>
+          <button
+            type="submit"
+            disabled={isOnlinePaymentDisabled}
+            className={`w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white font-semibold bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50`}
+          >
+            Pay Now
+          </button>
+        </form>
       </div>
     </div>
-
-    <div className="pl-20 mt">
-    <h1 className="text-cyan-950 font-playfair text-4xl">Shipping Address</h1>
-    <p>Please fill out all the fields.</p>
-      <form
-        onSubmit={handleSubmit(paymentHandler)}
-        className="w-full max-w-lg bg-white p-8 rounded-lg shadow-md"
-      >
-        <h2 className="text-2xl font-bold mb-6">Checkout</h2>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Full Name
-          </label>
-          <input
-            type="text"
-            {...register("full_name")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-          />
-          {errors.full_name && <p className="text-red-500 text-sm mt-1">{errors.full_name.message}</p>}
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Email
-          </label>
-          <input
-            type="email"
-            {...register("email")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-          />
-          {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Address
-          </label>
-          <input
-            type="text"
-            {...register("address")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-          />
-          {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address.message}</p>}
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            City
-          </label>
-          <input
-            type="text"
-            {...register("city")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-          />
-          {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city.message}</p>}
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            State
-          </label>
-          <input
-            type="text"
-            {...register("state")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-          />
-          {errors.state && <p className="text-red-500 text-sm mt-1">{errors.state.message}</p>}
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Country
-          </label>
-          <input
-            type="text"
-            {...register("country")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-          />
-          {errors.country && <p className="text-red-500 text-sm mt-1">{errors.country.message}</p>}
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Zip Code
-          </label>
-          <input
-            type="text"
-            {...register("zipcode")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-          />
-          {errors.zipcode && <p className="text-red-500 text-sm mt-1">{errors.zipcode.message}</p>}
-        </div>
-
-        <button
-          type="submit"
-          className={`w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 ${isOnlinePaymentDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-          disabled={isOnlinePaymentDisabled}
-        >
-          Pay Now
-        </button>
-      </form>
-    </div>
-  </>
-
   );
 };
 

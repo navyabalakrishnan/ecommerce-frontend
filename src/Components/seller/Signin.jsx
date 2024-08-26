@@ -8,8 +8,8 @@ import { Link } from "react-router-dom";
 
 const schema = yup
   .object({
-    email: yup.string().email().required(),
-    password: yup.string().min(6).required(),
+    email: yup.string().email('Invalid email format').required('Email is required'),
+    password: yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   })
   .required();
 
@@ -50,39 +50,45 @@ export default function SellerSignin() {
   };
 
   return (
-    <div className="p-60">
+    <div className="flex justify-center items-center min-h-screen p-4 sm:p-8 md:p-12 lg:p-16">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-y-0 rounded-md border "
+        className="w-full max-w-md bg-white p-6 rounded-lg shadow-md border border-gray-300"
       >
-        <input
-          {...register("email")}
-          placeholder="email"
-          className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-2 py-1.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-        />
-        {errors.email && <p>{errors.email.message}</p>}
-        <input
-          {...register("password")}
-          placeholder="password"
-          type="password"
-          className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-2 py-1.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-        />
-        {errors.password && <p>{errors.password.message}</p>}
+        <h2 className="text-2xl font-bold mb-6 text-center">Sign In</h2>
+        <div className="mb-4">
+          <input
+            {...register("email")}
+            placeholder="Email"
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+          />
+          {errors.email && <p className="text-sm text-red-500 mt-1">{errors.email.message}</p>}
+        </div>
+        <div className="mb-4">
+          <input
+            {...register("password")}
+            placeholder="Password"
+            type="password"
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+          />
+          {errors.password && <p className="text-sm text-red-500 mt-1">{errors.password.message}</p>}
+        </div>
         {errormessage && (
-          <p className="text-sm text-red-500">{errormessage}</p>
+          <p className="text-sm text-red-500 mb-4">{errormessage}</p>
         )}
-        <input
+        <button
           type="submit"
-          className="rounded-md bg-blue-500 py-1 text-white"
-        />
-        <p>
-          Create Account{" "}
+          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          Sign In
+        </button>
+        <p className="mt-4 text-center">
+          Don't have an account?{" "}
           <Link to="/seller-signup" className="text-blue-500 underline">
-            Signup
+            Sign Up
           </Link>
         </p>
       </form>
     </div>
   );
 }
-

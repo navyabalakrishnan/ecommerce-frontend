@@ -1,18 +1,16 @@
-
-
-
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
-import bcg from "../../assets/background.jpg"
+import bcg from "../../assets/background.jpg";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+
 const schema = yup
   .object({
     email: yup.string().email().required(),
-    password: yup.string().min(6),
+    password: yup.string().min(6).required(),
   })
   .required();
 
@@ -57,24 +55,24 @@ export default function Signin() {
         alt="Luxurious Furniture"
         className="absolute inset-0 w-full h-full object-cover"
       />
-      <div className="absolute inset-0 flex justify-center items-center">
+      <div className="absolute inset-0 flex justify-center items-center p-4 sm:p-6 md:p-8 lg:p-10">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-y-2 p-6 rounded-md bg-white/80 backdrop-blur-sm shadow-lg"
+          className="flex flex-col gap-y-4 p-6 rounded-md bg-white/80 backdrop-blur-sm shadow-lg max-w-sm w-full"
         >
           <input
             {...register("email")}
-            placeholder="email"
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-2 py-1.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+            placeholder="Email"
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
           />
           {errors.email && (
             <p className="text-sm text-red-500">{errors.email.message}</p>
           )}
           <input
             {...register("password")}
-            placeholder="password"
+            placeholder="Password"
             type="password"
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-2 py-1.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
           />
           {errors.password && (
             <p className="text-sm text-red-500">{errors.password.message}</p>
@@ -84,9 +82,9 @@ export default function Signin() {
           )}
           <input
             type="submit"
-            className="rounded-md bg-sky-950  py-1 text-white ease-in hover:scale-105 hover:transition-all hover:delay-150"
+            className="rounded-md bg-sky-950 py-2 text-white text-sm font-semibold hover:scale-105 hover:transition-all hover:delay-150"
           />
-          <p>
+          <p className="text-sm mt-4">
             Create an account{" "}
             <Link to="/user-signup" className="text-blue-500 underline">
               Signup
