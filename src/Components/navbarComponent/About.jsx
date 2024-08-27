@@ -5,7 +5,7 @@ import carttt from '../../assets/carttt.png';
 
 function About() {
   return (
-    <div className="pt-12 lg:pt-24 flex flex-col lg:flex-row items-start w-full h-full px-4 lg:px-16">
+    <div className="pt-20 lg:pt-24 flex flex-col lg:flex-row items-start w-full h-full px-4 lg:px-16">
       <div className="flex-1 lg:mr-10">
         <h1 className="text-4xl lg:text-7xl font-bold text-pink-900 font-amatic mb-4 lg:mb-6">
           Why choose us?

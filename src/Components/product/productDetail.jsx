@@ -74,8 +74,8 @@ function ProductDetail() {
 
   return (
     <div className='mt-40 m-48 mx-4 md:mx-12 lg:mx-24 flex flex-col lg:flex-row items-start'>
-      <div className='flex-shrink-0 w-full lg:w-1/2 h-64 lg:h-96 overflow-hidden'>
-        <img src={product.image} alt={product.name} className="object-cover h-full w-full rounded-lg" />
+      <div className='flex-shrink-0 w-96 lg:w-96 h-96 lg:h-96 overflow-hidden'>
+        <img src={product.image} alt={product.name} className="object-cover h-full w-full rounded-r-2xl" />
       </div>
       <div className='mt-8 lg:mt-0 lg:ml-12 w-full lg:w-1/2'>
         <div className='font-playfair font-bold text-3xl lg:text-5xl text-sky-800 text-center lg:text-left'>
