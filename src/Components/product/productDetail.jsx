@@ -74,17 +74,17 @@ function ProductDetail() {
 
   return (
     <div className='mt-40 m-48 mx-4 md:mx-12 lg:mx-24 flex flex-col lg:flex-row items-start'>
-      <div className='flex-shrink-0 w-96 lg:w-96 h-96 lg:h-96 overflow-hidden'>
+      <div className='flex-shrink-0 w-96 lg:w-96 h-96 lg:h-96 overflow-hidden '>
         <img src={product.image} alt={product.name} className="object-cover h-full w-full rounded-r-2xl" />
       </div>
-      <div className='mt-8 lg:mt-0 lg:ml-12 w-full lg:w-1/2'>
-        <div className='font-playfair font-bold text-3xl lg:text-5xl text-sky-800 text-center lg:text-left'>
+      <div className='mt-8 lg:mt-0 lg:ml-36 w-full lg:w-1/2'>
+        <div className='font-playfair font-bold text-3xl lg:text-5xl text-sky-800 text-center lg:text-left  dark:text-white'>
           <h2>{product.productName}</h2>
         </div>
-        <div className="flex justify-center lg:justify-end my-4">
-          <h2 className="font-playfair font-bold text-3xl lg:text-5xl text-purple-900">
-            <span className="text-4xl lg:text-6xl text-teal-700">Rs </span>
-            <span className="bg-gradient-to-r from-sky-800 via-sky-900 to-sky-950 text-transparent bg-clip-text">
+        <div className="flex justify-center lg:justify-end my-4  dark:text-white">
+          <h2 className="font-playfair font-bold text-3xl lg:text-5xl text-purple-900  dark:text-white">
+            <span className="text-4xl lg:text-6xl text-teal-700  dark:text-white">Rs </span>
+            <span className="bg-gradient-to-r from-sky-800 via-sky-900 to-sky-950 text-transparent bg-clip-text  dark:text-white">
               {product.price}
             </span>
           </h2>
@@ -95,9 +95,9 @@ function ProductDetail() {
             <p>{product.description}</p>
           </div>
         </div>
-        <div className='mt-6'>
-          <div className='flex flex-col sm:flex-row items-center sm:space-x-4'>
-            <div className='flex items-center space-x-4'>
+        <div className='mt-6 '>
+          <div className='flex flex-col sm:flex-row items-center  sm:space-x-4'>
+            <div className='flex items-center  space-x-4'>
               <button className='bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full font-serif' onClick={handleDecrease}>-</button>
               <span className='text-xl'>{quantity}</span>
               <button className='bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full font-serif' onClick={handleIncrease}>+</button>
@@ -106,17 +106,17 @@ function ProductDetail() {
               Add to cart
             </button>
           </div>
-          {message && <div className='mt-4 text-green-900 font-playfair font-semibold text-center'>{message}</div>}
+          {message && <div className='mt-4 text-green-900 font-playfair font-semibold text-center  dark:text-white'>{message}</div>}
         </div>
-        <div className='mt-4 text-center'>
+        <div className='mt-4 text-center '>
           <Link to="/checkout">
-            <button onClick={addToCart} className='text-white  font-playfair text-lg bg-sky-800 hover:bg-sky-950 rounded-md px-8 py-2 font-bold'>
+            <button onClick={addToCart} className='text-white font-playfair text-lg bg-sky-800 hover:bg-sky-950 rounded-md px-8 py-2 font-bold'>
               Buy Now
             </button>
           </Link>
         </div>
         <div className="mt-8">
-          <h2 className="font-playfair text-xl lg:text-2xl text-sky-800">Reviews</h2>
+          <h2 className="font-playfair text-xl lg:text-2xl text-sky-800  dark:text-white">Reviews</h2>
           {reviews.length === 0 ? (
             <p className="text-center">No reviews yet.</p>
           ) : (
@@ -139,10 +139,10 @@ function ProductDetail() {
             </div>
           )}
         </div>
-        <div className="mt-8">
+        <div className="mt-8 text-center">
           <button
-            className="text-white font-playfair text-lg bg-sky-800 hover:bg-sky-950 rounded-md px-8 py-2 font-bold"
-            onClick={toggleReviewSection}
+            className="text-white font-playfair text-lg bg-sky-800  hover:bg-sky-950 rounded-md px-8 py-2 font-bold"
+            onClick={toggleReviewSection} 
           >
             Write a Review
           </button>

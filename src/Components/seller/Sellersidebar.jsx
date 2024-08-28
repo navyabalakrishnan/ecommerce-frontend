@@ -15,7 +15,7 @@ function Sellersidebar() {
       </button>
 
      
-      <div className={`lg:w-64 lg:flex lg:flex-col lg:fixed lg:top-0 lg:left-0 lg:h-full lg:bg-gray-800 lg:text-white lg:flex-shrink-0 
+      <div className={`lg:w-64 lg:flex lg:flex-col lg:fixed lg:top-0 lg:left-0 lg:h-full mt-20  lg:bg-gray-800 lg:text-white lg:flex-shrink-0 
         ${isSidebarOpen ? 'block' : 'hidden lg:block'} fixed top-0 left-0 h-full bg-gray-800 text-white z-40 transition-transform transform lg:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         <div className="text-2xl font-bold p-4 border-b border-gray-700">

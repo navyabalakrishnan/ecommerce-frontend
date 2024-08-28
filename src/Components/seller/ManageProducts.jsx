@@ -55,7 +55,7 @@ function ManageProducts() {
                 <th scope="col" className="px-4 py-3 sm:px-6 sm:py-4">Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+            <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700 text-center">
               {products.map((product) => (
                 <tr key={product._id} className="hover:bg-gray-100 dark:hover:bg-gray-700">
                   <td className="px-4 py-2 sm:px-6 sm:py-4 font-medium text-gray-900 dark:text-white">{product.productName}</td>

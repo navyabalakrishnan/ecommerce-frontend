@@ -9,7 +9,7 @@ function Indexpage() {
         alt="Luxurious Furniture" 
         className="w-full h-full object-cover"
       />
-      <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col text-center items-center justify-center p-4">
         <h1 className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white font-bold mb-4 font-live'>
           Liv.e
         </h1>

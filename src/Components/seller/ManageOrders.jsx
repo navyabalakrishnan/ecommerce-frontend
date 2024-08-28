@@ -24,7 +24,7 @@ function ManageOrders() {
   }, []);
 
   return (
-    <div className="flex flex-col mt-20 lg:flex-row">
+    <div className='flex flex-col  mt-10 lg:flex-row'>
       <Sellersidebar />
       <main className="flex-1 p-4 lg:pl-64 lg:pt-4 lg:pr-4">
         <div className="relative overflow-x-auto">

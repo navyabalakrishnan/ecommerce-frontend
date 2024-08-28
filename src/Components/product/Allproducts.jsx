@@ -18,9 +18,9 @@ function Allproducts() {
   }, []);
 
   return (
-    <div className='min-h-screen px-4 sm:px-6 lg:px-8'>
+    <div className='min-h-screen px-4 sm:px-6 lg:px-8 '>
       <div className='flex items-center justify-center mt-10'>
-        <h1 className="text-sky-950 text-3xl sm:text-4xl md:text-5xl font-bold mb-6 mt-8 font-live">
+        <h1 className="text-sky-950 text-3xl sm:text-4xl md:text-5xl font-bold mb-6 mt-20 font-live  dark:text-white">
           Discover Style and Comfort...
         </h1>
       </div>
