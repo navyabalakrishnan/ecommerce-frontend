@@ -6,7 +6,8 @@ function Cart() {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
   const [cartId, setCartId] = useState(null);
-
+  const [orders, setOrders] = useState([]);
+  const [showOrders, setShowOrders] = useState(false);
   useEffect(() => {
     const getCart = async () => {
       try {
@@ -18,7 +19,16 @@ function Cart() {
         console.error('Error fetching cart:', error);
       }
     };
+    const getOrders = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/order/getorderbyid`, { withCredentials: true });
+        setOrders(res.data || []); 
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      }
+    };
     getCart();
+    getOrders();
   }, []);
 
   const handleRemove = async (productId) => {
@@ -42,17 +52,56 @@ function Cart() {
       <div className='pt-8 md:pt-12'>
         <h1 className='text-cyan-950 font-playfair text-3xl md:text-4xl text-center dark:text-white'>Your Cart</h1>
       </div>
-      <div className=" top-0 mt-10 right-4 w-full md:w-1/3 bg-white shadow-teal-950 shadow-inner rounded-lg p-4">
-        <h2 className="text-lg font-bold mb-4 text-center font-abril text-blue-950">Cart Total</h2>
-        <div className="flex justify-between font-bold text-lg  dark:text-black">
-          <span>Total:</span>
-          <span>Rs {total}</span>
+      
+
+      <div className="flex justify-between items-start mt-10 md:flex flex-col">
+    
+        <div className="w-full md:w-1/3 bg-white shadow-teal-950 shadow-inner rounded-lg p-4">
+          <h2 className="text-lg font-bold mb-4 text-center font-abril text-blue-950">Cart Total</h2>
+          <div className="flex justify-between font-bold text-lg dark:text-black">
+            <span>Total:</span>
+            <span>Rs {total}</span>
+          </div>
+          <Link to="/checkout">
+            <button className="w-full bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full mt-4">
+              Proceed to Checkout
+            </button>
+          </Link>
+         
         </div>
-        <Link to="/checkout">
-          <button className="w-full bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full mt-4 ">
-            Proceed to Checkout
+ <button 
+            className=" bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-full mt-10 flex flex-wrap"
+            onClick={() => setShowOrders(!showOrders)} 
+          >
+            {showOrders ? 'Hide Orders' : 'Show Orders'}
           </button>
-        </Link>
+
+   
+        {showOrders && (
+          <div className="w-full md:w-1/3 bg-white shadow-teal-950 shadow-inner rounded-lg p-4">
+            <h2 className="text-lg font-bold mb-4 text-center font-abril text-blue-950">Your Orders</h2>
+            {orders.length === 0 ? (
+              <p>No orders found.</p>
+            ) : (
+              orders.map((order) => (
+                <div key={order._id} className="mb-4">
+                  <h3 className="font-bold">Order #{order._id}</h3>
+                  {order.products.map((item, index) => (
+                    <div key={index} className="flex justify-between items-center mb-2">
+                      <img src={item.product.image} alt={item.product.name} className="w-16 h-16 mr-4" />
+                      <h4 className="font-bold">{item.product.name}</h4>
+                      <span className="font-bold">Rs {item.product.price}</span>
+                    </div>
+                  ))}
+                  <div className="flex justify-between font-bold text-lg dark:text-black mt-4">
+                    <span>Order Total:</span>
+                    <span>Rs {order.totalAmount}</span>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        )}
       </div>
       <div className="overflow-x-auto mt-20">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-500">

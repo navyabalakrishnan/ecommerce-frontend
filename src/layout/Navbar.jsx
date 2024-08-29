@@ -51,7 +51,7 @@ const Navbar = () => {
               Logout
             </button>
 
-            <DarkModeToggle /> {/* Add the DarkModeToggle component here */}
+            <DarkModeToggle /> 
 
             <Link to="/cart">
               <button>

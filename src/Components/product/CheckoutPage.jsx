@@ -54,28 +54,35 @@ const CheckoutPage = () => {
         state: data.state,
         zipcode: data.zipcode,
       };
-
+  
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/order`, {
         full_name: data.full_name,
         email: data.email,
         shippingAddress,
-        paymentMethod: 'onlinePayment',
       }, { withCredentials: true });
-
-      return response.data._id;
+  
+      console.log('Order Response:', response.data); 
+      if (!response.data.orderId) {
+        throw new Error('Order ID is not available');
+      }
+  
+      return response.data.orderId; 
     } catch (error) {
       console.error('Error creating order:', error);
       throw error;
     }
   };
-
+  
+  
   const paymentHandler = async (formData) => {
     try {
       const orderId = await onSubmit(formData);
-
+  
+      console.log('Order ID for Payment:', orderId);
+  
       const paymentResponse = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/payment/order`, { amount: total }, { withCredentials: true });
       const order = paymentResponse.data.data;
-
+  
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY,
         amount: order.amount,
@@ -89,10 +96,12 @@ const CheckoutPage = () => {
             razorpay_order_id: response.razorpay_order_id,
             razorpay_payment_id: response.razorpay_payment_id,
             razorpay_signature: response.razorpay_signature,
-            orderId: orderId,
+            orderId: orderId, 
+            
           };
-
+  
           try {
+            console.log('Payment Verification Body:', body); 
             const validateResponse = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/payment/verify`, body, { withCredentials: true });
             if (validateResponse.data.message === "Payment Successfully") {
               navigate("/orderplaced");
@@ -113,17 +122,18 @@ const CheckoutPage = () => {
           color: "#3399cc",
         },
       };
-
+  
       const rzp1 = new window.Razorpay(options);
       rzp1.on("payment.failed", function (response) {
         alert(response.error.code);
       });
-
+  
       rzp1.open();
     } catch (error) {
       console.error("Error processing payment:", error);
     }
   };
+  
 
   return (
     <div className="container mx-auto px-4">
