@@ -92,7 +92,7 @@ function ProductDetail() {
         </div>
 
         <div className='mt-4 p-4 md:p-6 bg-white shadow-inner hover:shadow-md shadow-teal-900 rounded-lg'>
-          <div className='font-playfair text-sky-700'>
+          <div className='font-playfair text-sky-700 dark:bg-gray-700  dark:text-white'>
             <p>{product.description}</p>
           </div>
         </div>
@@ -123,7 +123,7 @@ function ProductDetail() {
           ) : (
             <div className="mt-4">
               {reviews.map((review) => (
-                <div key={review._id} className="p-4 bg-gray-100 border border-gray-300 rounded-md mb-4">
+                <div key={review._id} className="p-4 bg-gray-100 border border-gray-300 rounded-md mb-4 dark:bg-gray-700">
                   <div className="flex items-center space-x-2">
                     <ReactStars
                       count={5}
@@ -132,9 +132,9 @@ function ProductDetail() {
                       edit={false}
                       activeColor="#ffd700"
                     />
-                    <span className="font-semibold">{review.user.name}</span>
+                    <span className="font-semibold ">{review.user.name}</span>
                   </div>
-                  <p className="mt-2">{review.comment}</p>
+                  <p className="mt-2  dark:text-white">{review.comment}</p>
                 </div>
               ))}
             </div>

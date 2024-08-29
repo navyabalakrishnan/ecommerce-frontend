@@ -141,7 +141,7 @@ const CheckoutPage = () => {
         <img src={SA} alt="Shipping Address" className="w-32 h-32 sm:w-48 sm:h-48" />
       </div>
 
-      <div className="relative w-full max-w-4xl mx-auto bg-white shadow-lg rounded-lg mt-8 p-6 md:p-8">
+      <div className="relative w-full max-w-4xl mx-auto bg-white shadow-lg rounded-lg mt-8 p-6 md:p-8 dark:bg-gray-700 dark:text-white">
         <h2 className="text-xl font-thin mb-4 text-center text-blue-950">Your Order</h2>
         {cart.map((item, index) => (
           <div key={index} className="flex flex-col sm:flex-row items-center mb-4">
@@ -153,7 +153,7 @@ const CheckoutPage = () => {
             </div>
           </div>
         ))}
-        <div className="text-center mt-4 font-semibold text-lg">
+        <div className="text-center mt-4 font-semibold text-lg dark:text-white">
           <h3>Order Total: ₹{total}</h3>
         </div>
       </div>

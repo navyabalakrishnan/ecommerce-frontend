@@ -57,8 +57,8 @@ function Cart() {
 
       <div className="flex justify-between items-start mt-10 md:flex flex-col">
     
-        <div className="w-full md:w-1/3 bg-white shadow-teal-950 shadow-inner rounded-lg p-4">
-          <h2 className="text-lg font-bold mb-4 text-center font-abril text-blue-950">Cart Total</h2>
+        <div className="w-full md:w-1/3 bg-white shadow-teal-950 shadow-inner rounded-lg p-4 dark:bg-gray-700 dark:text-white">
+          <h2 className="text-lg font-bold mb-4 text-center font-abril text-blue-950 dark:text-white">Cart Total</h2>
           <div className="flex justify-between font-bold text-lg dark:text-black">
             <span>Total:</span>
             <span>Rs {total}</span>
