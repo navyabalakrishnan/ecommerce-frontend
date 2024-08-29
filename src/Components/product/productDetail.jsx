@@ -49,7 +49,8 @@ function ProductDetail() {
 
   const addReview = async () => {
     try {
-      const token = Cookies.get('token');
+      // const token = Cookies.get('token');
+      const token = localStorage.getItem('authToken');
       if (!token) return console.error("Authentication token not found");
 
       await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/reviews/create`, {

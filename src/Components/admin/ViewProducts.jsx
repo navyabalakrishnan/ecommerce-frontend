@@ -23,7 +23,7 @@ function Viewproducts() {
       <AdminSidebar />
       <div className="flex-1 pl-4 lg:pl-64 pt-4 lg:pt-8">
         <div className="relative overflow-x-auto">
-          <table className="w-full text-sm text-gray-500">
+          <table className="w-full text-sm text-gray-500 mt-40">
             <thead className="text-lg font-serif text-gray-700 uppercase bg-gray-50">
               <tr>
                 <th scope="col" className="px-4 py-2 sm:px-6 sm:py-3">Product Image</th>
