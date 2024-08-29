@@ -22,7 +22,7 @@ const AddProduct = () => {
     const fetchSellerEmail = async () => {
       try {
         const sellerId = localStorage.getItem('sellerId');
-        const res = await axios.get('${import.meta.env.VITE_API_URL}/api/v1/seller/get-selleremail', {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/seller/get-selleremail`, {
           params: { sellerId }, 
           withCredentials: true,
         });
@@ -34,7 +34,7 @@ const AddProduct = () => {
 
     const fetchCategories = async () => {
       try {
-        const res = await axios.get('${import.meta.env.VITE_API_URL}/api/v1/category/get-category');
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/category/get-category`);
         setCategories(res.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -60,7 +60,7 @@ const AddProduct = () => {
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/v1/product/add-products`,
+       `${import.meta.env.VITE_API_URL}/api/v1/product/add-products`,
         formData,
         {
           withCredentials: true,
@@ -126,7 +126,7 @@ const AddProduct = () => {
             <label className="block text-gray-700">Category</label>
             <select {...register('category')} className="mt-1 p-2 border rounded w-full">
               <option value="">Select a category</option>
-              {categories.map((cat, index) => (
+              {categories && categories.map((cat, index) => (
                 <option key={index} value={cat.name}>
                   {cat.name}
                 </option>
