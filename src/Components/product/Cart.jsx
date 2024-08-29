@@ -38,7 +38,7 @@ function Cart() {
         data: { cartId },
       });
       const data = res.data;
-      if (data.message === "item is deleted") {
+      if (data.message === "Item is deleted") {
         setCart(cart.filter(item => item.product._id !== productId)); 
         setTotal(total - (cart.find(item => item.product._id === productId)?.product.price * cart.find(item => item.product._id === productId)?.quantity || 0));
         window.location.reload();
