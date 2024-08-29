@@ -36,7 +36,7 @@ function Allproducts() {
                 />
               </div>
             </Link>
-            <div className="p-4 sm:p-5">
+            <div className="p-4 sm:p-5 dark:bg-gray-700 dark:text-white">
               <h2 className="text-lg sm:text-xl font-bold font-playfair mb-2 text-sky-900">
                 {product.productName}
               </h2>
