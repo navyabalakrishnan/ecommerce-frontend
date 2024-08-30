@@ -92,7 +92,7 @@ function ProductDetail() {
         </div>
 
         <div className='mt-4 p-4 md:p-6 bg-white shadow-inner hover:shadow-md shadow-teal-900 rounded-lg dark:bg-gray-700  dark:text-white'>
-          <div className='font-playfair text-sky-700'>
+          <div className='font-playfair text-sky-700 dark:text-white'>
             <p>{product.description}</p>
           </div>
         </div>
