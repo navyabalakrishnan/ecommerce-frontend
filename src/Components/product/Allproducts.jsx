@@ -37,11 +37,11 @@ function Allproducts() {
               </div>
             </Link>
             <div className="p-4 sm:p-5 dark:bg-gray-700 dark:text-white">
-              <h2 className="text-lg sm:text-xl font-bold font-playfair mb-2 text-sky-900">
+              <h2 className="text-lg sm:text-xl font-bold font-playfair mb-2 text-sky-900 dark:text-white">
                 {product.productName}
               </h2>
               <div className="flex justify-between items-center">
-                <span className="text-lg sm:text-xl font-semibold text-sky-900 font-abril">
+                <span className="text-lg sm:text-xl font-semibold text-sky-900 font-abril dark:text-white">
                   ₹{product.price}
                 </span>
                 <Link to={`/viewproduct/${product._id}`}>
