@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect,React } from "react";
 import { useNavigate } from "react-router-dom";
 
 const UserRoutes = ({ children }) => {
@@ -9,7 +9,7 @@ const UserRoutes = ({ children }) => {
     const checkUser = async () => {
       try {
         const res = await axios.get(
-         `${import.meta.env.VITE_API_URL}/api/v1/user/check-user`,
+         `${import.meta.env.VITE_API_URL}/api/v1/users/check-user`,
           {
             withCredentials: true,
           },
@@ -19,7 +19,7 @@ const UserRoutes = ({ children }) => {
         console.log("res",data);   
       } catch (error) {
         console.error("Error occurred while checking user:", error);
-        navigate("/user-signup", { replace: true });
+        navigate("/", { replace: true });
       }
     };
     checkUser();

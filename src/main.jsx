@@ -14,6 +14,7 @@ import SellerSignup from './Components/seller/Signup.jsx';
 import SellerSignin from './Components/seller/Signin.jsx';
 import HomeLayout from './layout/HomeLayout.jsx';
 import Navbar from './layout/Navbar.jsx';
+import UserRoutes from './protected/userRoutes.jsx'
 import AddCategory from './Components/admin/Addcategory.jsx';
 import Allproducts from './Components/product/Allproducts.jsx';
 import ProductDetail from './Components/product/productDetail.jsx';
@@ -28,6 +29,7 @@ import ManageOrders from './Components/seller/ManageOrders.jsx';
 import Vieworders from './Components/admin/Vieworders.jsx';
 import Viewproducts from './Components/admin/ViewProducts.jsx';
 import Indexpage from './Indexpage.jsx';
+import SellerRoute from './protected/sellerRoutes.jsx';
 import ProtectedRoute from './Components/protectedRoute.jsx'; 
 import About from './Components/navbarComponent/About.jsx'
 import Contact from './Components/navbarComponent/Contact.jsx';
@@ -58,9 +60,12 @@ const router = createBrowserRouter([
     ]
   },
   {
-    element: <ProtectedRoute>
+    // element: <ProtectedRoute>
+    //   <Navbar/>
+    //   </ProtectedRoute>, 
+    element: <UserRoutes>
       <Navbar/>
-      </ProtectedRoute>, 
+      </UserRoutes>, 
     children: [
       {
         path: "/home",
@@ -101,9 +106,12 @@ const router = createBrowserRouter([
     ]
   },
   {
-    element: <ProtectedRoute>
-      <Selleradminnav />
-      </ProtectedRoute>, 
+    // element: <ProtectedRoute>
+    //   <Selleradminnav />
+    //   </ProtectedRoute>, 
+    element: <SellerRoute>
+     <Selleradminnav />
+      </SellerRoute>, 
     children: [
       {
         path: "/add-product",

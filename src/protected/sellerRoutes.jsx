@@ -18,7 +18,7 @@ function sellerRoutes({children}) {
            
           } catch (error) {
             console.error("Error occurred while checking user:", error);
-            navigate("/seller-signup", { replace: true });
+            navigate("/", { replace: true });
           }
         };
         checkSeller();
