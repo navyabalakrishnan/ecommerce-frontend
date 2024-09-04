@@ -30,6 +30,7 @@ import Vieworders from './Components/admin/Vieworders.jsx';
 import Viewproducts from './Components/admin/ViewProducts.jsx';
 import Indexpage from './Indexpage.jsx';
 import SellerRoute from './protected/sellerRoutes.jsx';
+import AdminRoute from './protected/adminRoutes.jsx'
 import ProtectedRoute from './Components/protectedRoute.jsx'; 
 import About from './Components/navbarComponent/About.jsx'
 import Contact from './Components/navbarComponent/Contact.jsx';
@@ -60,9 +61,7 @@ const router = createBrowserRouter([
     ]
   },
   {
-    // element: <ProtectedRoute>
-    //   <Navbar/>
-    //   </ProtectedRoute>, 
+  
     element: <UserRoutes>
       <Navbar/>
       </UserRoutes>, 
@@ -106,9 +105,7 @@ const router = createBrowserRouter([
     ]
   },
   {
-    // element: <ProtectedRoute>
-    //   <Selleradminnav />
-    //   </ProtectedRoute>, 
+
     element: <SellerRoute>
      <Selleradminnav />
       </SellerRoute>, 
@@ -124,7 +121,14 @@ const router = createBrowserRouter([
       {
         path: "/manage-orders",
         element: <ManageOrders />
-      },
+      }]},
+      {
+   
+      element: <AdminRoute>
+       <Selleradminnav />
+        </AdminRoute>, 
+      children: [
+      
       {
         path: "/manage-sellers",
         element: <ManageSellers />
