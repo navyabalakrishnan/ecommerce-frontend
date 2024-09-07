@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import logo from '../assets/navbarlogo.png';
+import cookie from 'react-cookie';
+import { useHistory } from 'react-router-dom';
 import cart from '../assets/cart.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +11,9 @@ import DarkModeToggle from '../layout/darkmode.jsx';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [cookies, , removeCookie] = useCookies(['token']);
+  const history = useHistory();
+
   const navigate = useNavigate();
 
   const toggleMenu = () => {
@@ -18,6 +23,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/users/logout`, {}, { withCredentials: true });
+      removeCookie('token');
       localStorage.removeItem('authToken');
       navigate('/');
     } catch (error) {
