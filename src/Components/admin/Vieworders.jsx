@@ -14,7 +14,7 @@ function Vieworders() {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log('Fetched orders', res.data);
+        // console.log('Fetched orders', res.data);
         setOrders(res.data);
       } catch (error) {
         console.error('Error fetching orders:', error);
