@@ -18,7 +18,6 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/users/logout`, {}, { withCredentials: true });
-      removeCookie('token');
       localStorage.removeItem('authToken');
       navigate('/');
     } catch (error) {
