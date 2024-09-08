@@ -71,7 +71,7 @@ export default function Signup() {
         />
         <div className="flex justify-center items-center min-h-screen p-4 z-10 relative">
           <div className="w-full max-w-sm sm:max-w-md md:max-w-lg p-4 bg-white/80 rounded-md shadow-lg">
-          {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
+   
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="flex flex-col gap-y-4"
@@ -89,7 +89,7 @@ export default function Signup() {
                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
               />
               {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
-              
+              {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
               <input
                 type="password"
                 {...register("password")}
