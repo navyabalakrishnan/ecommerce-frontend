@@ -19,6 +19,7 @@ const schema = yup
 
 export default function Signup() {
   const navigate = useNavigate();
+   const [errorMessage, setErrormessage] = useState("");
   const {
     register,
     handleSubmit,
@@ -39,13 +40,17 @@ export default function Signup() {
         console.log("Stored Token:", localStorage.getItem("authToken"));
         navigate("/home");
         console.log(res.data);
-      } else if (res.data === "Password incorrect") {
-        setErrormessage("Incorrect Password");
-      } else if (res.data === "User does not exist") {
-        setErrormessage("User does not exist. Please create an account");
       }
-      console.log(res.data);
-     
+      // } else if (res.data === "Password incorrect") {
+      //   setErrormessage("Incorrect Password");
+      // } else if (res.data === "User does not exist") {
+      //   setErrormessage("User does not exist. Please create an account");
+      // }
+      // console.log(res.data);
+      else {
+      
+        setErrormessage(res.data);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -61,6 +66,7 @@ export default function Signup() {
         />
         <div className="flex justify-center items-center min-h-screen p-4 z-10 relative">
           <div className="w-full max-w-sm sm:max-w-md md:max-w-lg p-4 bg-white/80 rounded-md shadow-lg">
+          {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="flex flex-col gap-y-4"
