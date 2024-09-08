@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useNavigate } from 'react-router-dom';
+
 import Sellersidebar from './Sellersidebar';
 
 const schema = yup.object({
@@ -17,6 +19,7 @@ const AddProduct = () => {
   const [sellerEmail, setSellerEmail] = useState('');
   const [categories, setCategories] = useState([]);
   const [message, setMessage] = useState('');
+  const navigate=useNavigate()
 
   useEffect(() => {
     const fetchSellerEmail = async () => {
@@ -71,6 +74,7 @@ const AddProduct = () => {
       ); 
       console.log(res.data);
       setMessage('Product added successfully!');
+      navigate("/manage-products")
     } catch (error) {
       console.log(error);
       setMessage('Failed to add product. Please try again.');
@@ -145,7 +149,7 @@ const AddProduct = () => {
             {errors.image && <p className="text-red-500 text-sm mt-1">{errors.image.message}</p>}
           </div>
 
-          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+     <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
             Add Product
           </button>
           {message && <span className="block mt-4 text-green-600 text-center">{message}</span>}

@@ -9,6 +9,7 @@ function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState({});
   const [message, setMessage] = useState("");
+  const [errorReview,setErrorReview]=useState("");
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [reviews, setReviews] = useState([]);
@@ -67,7 +68,12 @@ function ProductDetail() {
       const reviewsResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/reviews/${id}`);
       setReviews(reviewsResponse.data);
     } catch (error) {
-      console.error('Error submitting review:', error.response ? error.response.data : error.message);
+      if (error.response && error.response.status === 400) {
+        setErrorReview(error.response.data.message);  
+      } else {
+        console.error('Error submitting review:', error.response ? error.response.data : error.message);
+        setErrorReview("An error occurred while submitting the review.");
+      }
     }
   };
 
@@ -141,6 +147,8 @@ function ProductDetail() {
           )}
         </div>
         <div className="mt-8 text-center">
+{/* 
+  {errorReview && <p className="text-red-500 mb-4">{errorReview}</p>} */}
           <button
             className="text-white font-playfair text-lg bg-sky-800  hover:bg-sky-950 rounded-md px-8 py-2 font-bold"
             onClick={toggleReviewSection} 
@@ -174,6 +182,8 @@ function ProductDetail() {
               >
                 Submit Review
               </button>
+              
+  {errorReview && <p className="text-red-500 mb-4">{errorReview}</p>}
             </div>
           )}
         </div>

@@ -33,8 +33,9 @@ function ManageProducts() {
       });
       const data = res.data;
       console.log(data);
-      if (data.message === "Product is deleted") {
+      if (data.message === "Product deleted successfully") {
         setProducts(products.filter(product => product._id !== productId));
+        window.location.reload();
       }
     } catch (error) {
       console.error("Error deleting product:", error);

@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +19,8 @@ const schema = yup
 
 export default function Signup() {
    const navigate = useNavigate();
+   const [errorMessage, setErrormessage] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -37,15 +40,22 @@ export default function Signup() {
         localStorage.setItem("authToken", res.data.token);
 
         navigate("/seller-signin");
-      } else if (res.data.message === "Password incorrect") {
-        setErrormessage("Incorrect Password");
-      } else if (res.data.message === "seller does not exist") {
-        setErrormessage("Seller does not exist. Please create an account");
+      } 
+      // else if (res.data.message === "Password incorrect") {
+      //   setErrormessage("Incorrect Password");
+      // } else if (res.data.message === "seller does not exist") {
+      //   setErrormessage("Seller does not exist. Please create an account");
+      // }
+      // console.log(res.data);
+      else {
+      
+        setErrormessage(res.data.message);
       }
-      console.log(res.data);
-     
     } catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
+        setErrormessage(error.response.data.message);
       console.log(error);
+    }
     }
   };
   return (
@@ -66,6 +76,8 @@ export default function Signup() {
         className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-2 py-1.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
       />
       {errors.email && <p>{errors.email.message}</p>}
+       {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
+
       <input
         {...register("password")}
         type="password"

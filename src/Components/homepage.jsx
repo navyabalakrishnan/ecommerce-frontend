@@ -8,8 +8,8 @@ function Homepage() {
   return (
     <div className="relative h-screen">
       <img src={homepagebcg} alt="Background" className="w-full h-full object-cover" />
-      <div className="absolute inset-0 flex flex-col items-start mt-20 sm:justify-center justify-start px-6 py-4 md:px-12 lg:px-24">
-        <div className="max-w-lg lg:max-w-xl space-y-4 sm:mt-4">
+      <div className="absolute inset-0 flex flex-col items-start mt-20 sm:justify-center justify-end px-6 py-4 md:px-12 lg:px-24 sm:mb-10">
+        <div className="max-w-lg lg:max-w-xl space-y-2 ">
           <h1 className="text-sky-900 text-3xl  font-abril md:text-4xl lg:text-5xl sm:text-sky-900 ">
             Crafted with Care
           </h1>
