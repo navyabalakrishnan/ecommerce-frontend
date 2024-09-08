@@ -50,11 +50,15 @@ export default function Signup() {
       // console.log(res.data);
       else {
       
-        setErrormessage(res.data);
+        setErrormessage(res.data.message);
       }
-    } catch (error) {
+    } 
+    catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
+        setErrormessage(error.response.data.message);
       console.log(error);
     }
+  }
   };
 
   return (
@@ -106,6 +110,7 @@ export default function Signup() {
                 type="submit"
                 className="rounded-md bg-blue-500 py-2 text-white cursor-pointer hover:bg-blue-600 transition-colors"
               />
+              
               <p className="mt-4 text-center text-sm">
                 User already exists?{" "}
                 <Link to="/user-signin" className="text-blue-500 underline">
