@@ -64,18 +64,16 @@ function Cart() {
             <span>Rs {total}</span>
           </div>
           {total > 0 ? (
-          <Link to="/checkout">
-            <button className="w-full bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full mt-4">
+            <Link to="/checkout">
+              <button className="w-full bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full mt-4">
+                Proceed to Checkout
+              </button>
+            </Link>
+          ) : (
+            <button className="w-full bg-gray-600 text-white font-bold py-2 px-4 rounded-full mt-4 cursor-not-allowed" disabled>
               Proceed to Checkout
             </button>
-          </Link>
-          ):(
-      
-         <button className="w-full bg-gray-600 text-white font-bold py-2 px-4 rounded-full mt-4 cursor-not-allowed" disabled>
-           Proceed to Checkout
-         </button>
-    
-        )}
+          )}
         </div>
  <button 
             className=" bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-full mt-10 flex flex-wrap"
