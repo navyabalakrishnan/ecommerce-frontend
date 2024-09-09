@@ -63,7 +63,7 @@ function Cart() {
             <span>Total:</span>
             <span>Rs {total}</span>
           </div>
-          {total < 0 ? (
+          {total > 0 ? (
           <Link to="/checkout">
             <button className="w-full bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full mt-4">
               Proceed to Checkout
