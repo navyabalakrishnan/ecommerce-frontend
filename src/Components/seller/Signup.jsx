@@ -41,12 +41,7 @@ export default function Signup() {
 
         navigate("/seller-signin");
       } 
-      // else if (res.data.message === "Password incorrect") {
-      //   setErrormessage("Incorrect Password");
-      // } else if (res.data.message === "seller does not exist") {
-      //   setErrormessage("Seller does not exist. Please create an account");
-      // }
-      // console.log(res.data);
+    
       else {
       
         setErrormessage(res.data.message);

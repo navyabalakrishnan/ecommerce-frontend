@@ -117,7 +117,7 @@ function ProductDetail() {
         </div>
         <div className='mt-4 text-center '>
           <Link to="/checkout">
-            <button onClick={addToCart} className='text-white font-playfair text-lg bg-sky-800 hover:bg-sky-950 rounded-md px-8 py-2 font-bold'>
+            <button onClick={ async()=>{ await addToCart()}} className='text-white font-playfair text-lg bg-sky-800 hover:bg-sky-950 rounded-md px-8 py-2 font-bold'>
               Buy Now
             </button>
           </Link>

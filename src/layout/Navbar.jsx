@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import logo from '../assets/navbarlogo.png';
-import cart from '../assets/cart.png';
+import cart from '../assets/cart1.jpg';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import DarkModeToggle from '../layout/darkmode.jsx'; 
@@ -55,7 +55,7 @@ const Navbar = () => {
 
             <Link to="/cart">
               <button>
-                <img src={cart} alt="Cart" height={30} width={30} />
+                <img src={cart} alt="Cart" height={50} width={50}  className='rounded-full'/>
               </button>
             </Link>
             <button

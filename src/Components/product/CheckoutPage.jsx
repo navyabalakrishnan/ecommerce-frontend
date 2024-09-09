@@ -142,7 +142,7 @@ const CheckoutPage = () => {
       </div>
 
       <div className="relative w-full max-w-4xl mx-auto bg-white shadow-lg rounded-lg mt-8 p-6 md:p-8 dark:bg-gray-700 dark:text-white">
-        <h2 className="text-xl font-thin mb-4 text-center text-blue-950">Your Order</h2>
+        <h2 className="text-xl font-thin mb-4 text-center text-blue-950  dark:bg-gray-700 dark:text-white">Your Order</h2>
         {cart.map((item, index) => (
           <div key={index} className="flex flex-col sm:flex-row items-center mb-4">
             <img className='rounded-lg w-24 h-24 sm:w-32 sm:h-32' src={item.product?.image || 'default-image.jpg'} alt={item.product.name} />
@@ -158,8 +158,8 @@ const CheckoutPage = () => {
         </div>
       </div>
 
-      <div className="mt-8">
-        <h1 className="text-cyan-950 font-playfair text-4xl text-center mb-4">Shipping Address</h1>
+      <div className="mt-8 ">
+        <h1 className="text-cyan-950 font-playfair text-4xl text-center mb-4  dark:text-white">Shipping Address</h1>
         <p className="text-center mb-4">Please fill out all the fields.</p>
         <form
           onSubmit={handleSubmit(paymentHandler)}
