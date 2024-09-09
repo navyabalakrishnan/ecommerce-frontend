@@ -33,21 +33,41 @@ function ProductDetail() {
   const handleIncrease = () => setQuantity(quantity + 1);
   const handleDecrease = () => quantity > 1 && setQuantity(quantity - 1);
 
-  const addToCart = async () => {
+  // const addToCart = async () => {
+  //   try {
+  //     const token = localStorage.getItem('authToken');
+  //     if (!token) return console.error("Authentication token not found");
+
+  //     const requestBody = { product: product._id, quantity };
+  //     const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/cart/addtocart`, requestBody, { withCredentials: true });
+
+  //     if (res.status === 200 || res.status === 201) setMessage("Product added to cart successfully");
+  //     else console.log("Failed to add product to cart", res.data);
+  //   } catch (err) {
+  //     console.error("Error adding product to cart:", err.response ? err.response.data : err.message);
+  //   }
+  // };
+
+  const addToCart = async (showMessage = true) => {
     try {
       const token = localStorage.getItem('authToken');
       if (!token) return console.error("Authentication token not found");
-
+  
       const requestBody = { product: product._id, quantity };
       const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/cart/addtocart`, requestBody, { withCredentials: true });
-
-      if (res.status === 200 || res.status === 201) setMessage("Product added to cart successfully");
-      else console.log("Failed to add product to cart", res.data);
+  
+      if (res.status === 200 || res.status === 201) {
+        if (showMessage) setMessage("Product added to cart successfully");
+        return true; 
+      } else {
+        console.log("Failed to add product to cart", res.data);
+        return false;
+      }
     } catch (err) {
       console.error("Error adding product to cart:", err.response ? err.response.data : err.message);
+      return false;
     }
   };
-
   const addReview = async () => {
     try {
       // const token = Cookies.get('token');
@@ -102,7 +122,7 @@ function ProductDetail() {
             <p>{product.description}</p>
           </div>
         </div>
-        <div className='mt-6 '>
+        {/* <div className='mt-6 '>
           <div className='flex flex-col sm:flex-row items-center  sm:space-x-4'>
             <div className='flex items-center  space-x-4'>
               <button className='bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full font-serif' onClick={handleDecrease}>-</button>
@@ -123,7 +143,35 @@ function ProductDetail() {
               Buy Now
             </button>
           </Link>
-        </div>
+        </div> */}
+        <div className='mt-6 '>
+  <div className='flex flex-col sm:flex-row items-center sm:space-x-4'>
+    <div className='flex items-center space-x-4'>
+      <button className='bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full font-serif' onClick={handleDecrease}>-</button>
+      <span className='text-xl'>{quantity}</span>
+      <button className='bg-sky-800 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded-full font-serif' onClick={handleIncrease}>+</button>
+    </div>
+    <button onClick={async () => { await addToCart(); }} className='mt-4 sm:mt-0 text-white font-playfair text-lg bg-sky-800 hover:bg-sky-950 rounded-md px-8 py-2 font-bold'>
+      Add to cart
+    </button>
+  </div>
+  {message && <div className='mt-4 text-green-900 font-playfair font-semibold text-center dark:text-white'>{message}</div>}
+</div>
+
+<div className='mt-4 text-center'>
+  <button
+    onClick={async () => {
+      const success = await addToCart(false);
+      if (success) {
+        window.location.href = "/checkout";
+      }
+    }}
+    className='text-white font-playfair text-lg bg-sky-800 hover:bg-sky-950 rounded-md px-8 py-2 font-bold'
+  >
+    Buy Now
+  </button>
+</div>
+
         <div className="mt-8">
           <h2 className="font-playfair text-xl lg:text-2xl text-sky-800  dark:text-white">Reviews</h2>
           {reviews.length === 0 ? (
