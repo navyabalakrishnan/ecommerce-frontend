@@ -115,7 +115,7 @@ function ProductDetail() {
           </div>
           {message && <div className='mt-4 text-green-900 font-playfair font-semibold text-center  dark:text-white'>{message}</div>}
         </div>
-        {/* <div className='mt-4 text-center '>
+        <div className='mt-4 text-center '>
           <Link to="/checkout">
             <button onClick={async()=>{ await addToCart() 
              
@@ -123,23 +123,7 @@ function ProductDetail() {
               Buy Now
             </button>
           </Link>
-        </div> */}
-        <div className='mt-4 text-center '>
-  <button
-    onClick={async () => {
-      try {
-        await addToCart();
-        window.location.href = "/checkout";
-      } catch (error) {
-        console.error("Error during 'Buy Now' process:", error);
-      }
-    }}
-    className='text-white font-playfair text-lg bg-sky-800 hover:bg-sky-950 rounded-md px-8 py-2 font-bold'
-  >
-    Buy Now
-  </button>
-</div>
-
+        </div>
         <div className="mt-8">
           <h2 className="font-playfair text-xl lg:text-2xl text-sky-800  dark:text-white">Reviews</h2>
           {reviews.length === 0 ? (
