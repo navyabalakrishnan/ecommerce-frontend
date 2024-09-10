@@ -55,6 +55,7 @@ function ManageOrders() {
                         {order.shippingAddress.city} <br />
                         {order.shippingAddress.state} <br />
                         {order.shippingAddress.country}
+                        {order.shippingAddress.zipcode}
                       </td>
                       <td className="px-4 py-2 md:px-6 md:py-4">{order.status}</td>
                     </tr>
