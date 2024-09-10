@@ -30,6 +30,7 @@ import Vieworders from './Components/admin/Vieworders.jsx';
 import Viewproducts from './Components/admin/ViewProducts.jsx';
 import Indexpage from './Indexpage.jsx';
 import SellerRoute from './protected/sellerRoutes.jsx';
+import CategoryPage from './Components/admin/CategoryPage.jsx'
 import AdminRoute from './protected/adminRoutes.jsx'
 import ProtectedRoute from './Components/protectedRoute.jsx'; 
 import About from './Components/navbarComponent/About.jsx'
@@ -144,6 +145,10 @@ const router = createBrowserRouter([
       {
         path: "/add-category",
         element: <AddCategory  />
+      },
+      {
+        path: "/categorypage",
+        element: <CategoryPage  />
       }
     ]
   }

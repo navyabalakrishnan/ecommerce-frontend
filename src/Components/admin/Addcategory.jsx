@@ -26,6 +26,7 @@ export default function AddCategory() {
 
       if (res.status === 201) {
         alert("Category created successfully");
+        navigate("/categorypage")
       } else {
         alert("Failed to create category");
       }

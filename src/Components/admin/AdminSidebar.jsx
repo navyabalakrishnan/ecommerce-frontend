@@ -16,6 +16,9 @@ export default function AdminDashboard() {
         <Link to="/add-category" className="hover:bg-gray-700 p-2 rounded">
           Add Category
         </Link>
+        <Link to="/categorypage" className="hover:bg-gray-700 p-2 rounded">
+         view Category
+        </Link>
       </nav>
     </div>
   );
