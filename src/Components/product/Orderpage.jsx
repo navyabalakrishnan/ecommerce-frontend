@@ -18,9 +18,9 @@ function Orderpage() {
   }, []);
 
   return (
-    <div className="flex justify-center items-center min-h-screen mt-20">
-      <div className="w-full md:w-1/3 bg-white shadow-teal-950 shadow-inner rounded-lg p-4">
-        <h2 className="text-lg font-bold mb-4 text-center font-abril text-blue-950">Your Orders</h2>
+    <div className="flex justify-center items-center min-h-screen ">
+      <div className="w-full md:w-1/3 bg-white shadow-teal-950 shadow-inner rounded-lg p-4 pt-20 sm:pt-10">
+        <h2 className="text-lg font-bold mb-4 text-center font-abril text-blue-950 mt-20 md:pt-10">Your Orders</h2>
         {orders.length === 0 ? (
           <p className="text-center">No orders found.</p>
         ) : (

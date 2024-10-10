@@ -46,13 +46,16 @@ function Cart() {
     } catch (error) {
       console.error("Error deleting cart item:", error);
     }
-  };
+  };  
 
   return (
     <div className="p-4 md:p-8 mt-10 lg:p-12">
-      <div className='pt-8 md:pt-12'>
-        <h1 className='text-cyan-950 font-playfair text-3xl md:text-4xl text-center dark:text-white'>Your Cart</h1>
-      </div>
+     <div className=' pt-20 sm:pt-10'>
+  <h1 className='text-cyan-950 font-playfair text-3xl md:text-4xl text-center dark:text-white  mt-10 md:pt-4'>
+    Your Cart
+  </h1>
+</div>
+
       
 
       <div className="flex justify-between items-start mt-10 md:flex flex-col">

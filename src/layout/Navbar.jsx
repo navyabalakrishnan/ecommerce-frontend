@@ -75,14 +75,16 @@ const Navbar = () => {
 
             <DarkModeToggle />
             <select 
-              onChange={handleDropdownChange} 
-              value={selectedOption} 
-              className="text-sky-900 font-serif focus:ring-4 focus:outline-none focus:ring-sky-900 blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-gray-800 dark:focus:ring-blue-800"
-            >
-              <option value="">Cart/Order</option>
-              <option value="cart">Cart</option>
-              <option value="order">Order</option>
-            </select>
+  onChange={handleDropdownChange} 
+  value={selectedOption} 
+  className="text-sky-900 font-serif focus:ring-2 focus:outline-none focus:ring-sky-900 bg-white border border-sky-900 rounded-lg text-xs sm:text-sm px-2 py-1 w-full max-w-xs mx-auto"
+>
+  <option value="" className="text-xs sm:text-sm">Cart/Order</option>
+  <option value="cart" className="text-xs sm:text-sm">Cart</option>
+  <option value="order" className="text-xs sm:text-sm">Order</option>
+</select>
+
+
 
             <button
               onClick={toggleMenu}
