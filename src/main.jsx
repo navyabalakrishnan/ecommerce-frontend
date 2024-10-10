@@ -35,6 +35,7 @@ import AdminRoute from './protected/adminRoutes.jsx'
 import ProtectedRoute from './Components/protectedRoute.jsx'; 
 import About from './Components/navbarComponent/About.jsx'
 import Contact from './Components/navbarComponent/Contact.jsx';
+import Orderpage from './Components/product/Orderpage.jsx';
 const router = createBrowserRouter([
   {
     element: <HomeLayout />,
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <Cart />
+      },
+      {
+        path: "/order",
+        element: <Orderpage />
       },
       {
         path: "/shop",

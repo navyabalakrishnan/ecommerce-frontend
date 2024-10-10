@@ -1,14 +1,14 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import { Link, Outlet } from 'react-router-dom';
 import logo from '../assets/navbarlogo.png';
-import cart from '../assets/cart1.jpg';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import DarkModeToggle from '../layout/darkmode.jsx'; 
+import DarkModeToggle from '../layout/darkmode.jsx';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('');
   const navigate = useNavigate();
 
   const toggleMenu = () => {
@@ -18,7 +18,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/users/logout`, {}, { withCredentials: true });
-        localStorage.removeItem('authToken');
+      localStorage.removeItem('authToken');
       navigate('/');
     } catch (error) {
       console.error('Error logging out:', error);
@@ -28,6 +28,28 @@ const Navbar = () => {
   const closeMenu = () => {
     setIsOpen(false);
   };
+
+  const handleDropdownChange = (e) => {
+    const selectedValue = e.target.value;
+    setSelectedOption(selectedValue);
+    if (selectedValue === 'cart') {
+      navigate('/cart'); 
+    } else if (selectedValue === 'order') {
+      navigate('/order'); 
+    }
+  };
+
+  
+  useEffect(() => {
+    const path = window.location.pathname;
+    if (path.includes('cart')) {
+      setSelectedOption('cart');
+    } else if (path.includes('order')) {
+      setSelectedOption('order');
+    } else {
+      setSelectedOption('');
+    }
+  }, [window.location.pathname]); 
 
   const navLinks = [
     { path: '/home', element: 'HOME' },
@@ -51,13 +73,17 @@ const Navbar = () => {
               Logout
             </button>
 
-            <DarkModeToggle /> 
+            <DarkModeToggle />
+            <select 
+              onChange={handleDropdownChange} 
+              value={selectedOption} 
+              className="text-sky-900 font-serif focus:ring-4 focus:outline-none focus:ring-sky-900 blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-gray-800 dark:focus:ring-blue-800"
+            >
+              <option value="">Cart/Order</option>
+              <option value="cart">Cart</option>
+              <option value="order">Order</option>
+            </select>
 
-            <Link to="/cart">
-              <button>
-                <img src={cart} alt="Cart" height={50} width={50}  className='rounded-full'/>
-              </button>
-            </Link>
             <button
               onClick={toggleMenu}
               type="button"
